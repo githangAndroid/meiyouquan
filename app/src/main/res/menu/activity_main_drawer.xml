@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/item1">
+
+
+        <item
+
+            android:id="@+id/pay"
+
+            android:icon="@drawable/ic_menu_camera"
+            android:title="充值" />
+    </group>
+    <group android:id="@+id/item2">
+
+
+        <item
+            android:id="@+id/haved"
+
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="已购买的" />
+    </group>
+    <group android:id="@+id/item3">
+
+
+        <item
+
+            android:id="@+id/share"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="分享" />
+    </group>
+    <group android:id="@+id/item4">
+        <item
+            android:id="@+id/setting"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="设置" />
+    </group>
+
+
+</menu>

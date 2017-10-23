@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="blac70">#919091</color>
+    <color name="canary">#FFFF66</color> <!--淡黄色-->
+    <color name="babyblue">#33FFFF</color> <!--淡蓝色-->
+    <color name="amaranth">#FF0099</color> <!--紫红色-->
+    <color name="modena">#660099</color> <!--深红色-->
+    <color name="Gainsboro">#DCDCDC</color>
+    <color name="yello_one">#FFF4E3</color>
+    <color name="blue_two">#E9F8FF</color>
+    <color name="purple_three">#F4E3FF</color>
+    <color name="appcolor">#FF3A94</color>
+    <color name="devider">#F5F4F5</color>
+    <color name="pressed_false_green">#78DEAB</color>
+    <color name="pressed_true_green">#4eA45D</color> <!--亮灰-->
+
+</resources>

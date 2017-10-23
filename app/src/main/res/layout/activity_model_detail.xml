@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+
+       <ImageView
+
+           android:id="@+id/background_img"
+           android:layout_width="match_parent"
+           android:layout_height="400dp"
+           android:layout_marginTop="-100dp"
+           android:contentDescription="@null"
+           android:scaleType="centerCrop"
+
+
+           />
+
+
+
+
+
+<com.markmao.pullscrollview.ui.widget.PullScrollView
+
+    android:id="@+id/scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:headerHeight="300dp"
+    app:headerVisibleHeight="100dp"
+    android:fillViewport="true"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true">
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants">
+    <com.github.jdsjlzx.recyclerview.LRecyclerView
+
+        android:layout_marginTop="200dp"
+        android:id="@+id/lRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    </com.github.jdsjlzx.recyclerview.LRecyclerView>
+    </RelativeLayout>
+
+</com.markmao.pullscrollview.ui.widget.PullScrollView>
+
+    <ImageView
+
+        android:layout_margin="8dp"
+        android:clickable="true"
+        android:id="@+id/back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+
+        android:src="@drawable/cherry_return" />
+
+</RelativeLayout>

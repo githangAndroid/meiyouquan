@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+     android:layout_height="match_parent">
+
+
+<LinearLayout
+    android:id="@+id/homeView"
+
+android:layout_width="match_parent"
+
+android:layout_height="match_parent"
+android:orientation="vertical">
+
+
+<View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:background="#F0F0F0" />
+
+<com.mayinews.g.view.MyScrollview
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/slide_bakc"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12sp"
+            android:layout_marginRight="12sp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/search_backgroud"
+            android:gravity="center"
+            android:padding="2dp"
+            android:text="搜索丨模特名/期数/标签"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <com.youth.banner.Banner
+            android:id="@+id/banner"
+            android:layout_width="wrap_content"
+            android:layout_height="140dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="10dp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="26dp"
+            android:clipChildren="false"
+
+            >
+
+            <android.support.v4.view.ViewPager
+
+                android:id="@+id/id_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="60dp"
+                android:clipChildren="false"
+
+                ></android.support.v4.view.ViewPager>
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="RANKING"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="排行榜"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+
+
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#FFFFcc">
+
+
+
+            <LinearLayout
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                 <de.hdodenhof.circleimageview.CircleImageView
+                     android:id="@+id/image_two"
+                     android:layout_gravity="center"
+
+                     android:layout_width="40dp"
+                     android:layout_height="40dp" />
+                <ImageView
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:src="@drawable/number_one"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp" />
+                <TextView
+                    android:textSize="10sp"
+                    android:layout_marginTop="4dp"
+                    android:textColor="#FF3A94"
+                    android:text="红人榜No.1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_one"
+                    android:layout_gravity="center"
+
+                    android:layout_width="50dp"
+                    android:layout_height="50dp" />
+                <ImageView
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:src="@drawable/number_one"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp" />
+                <TextView
+                    android:textColor="#FF3A94"
+                    android:textSize="10sp"
+                    android:layout_marginTop="4dp"
+                    android:text="新人榜No.1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_three"
+                    android:layout_gravity="center"
+
+                    android:layout_width="40dp"
+                    android:layout_height="40dp" />
+                <ImageView
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:src="@drawable/number_one"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp" />
+                <TextView
+                    android:textColor="#FF3A94"
+                    android:textSize="10sp"
+                    android:layout_marginTop="4dp"
+                    android:text="人气榜No.1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:clickable="true"
+                android:id="@+id/tv_moveRank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/more_paihang_backgroud"
+                android:paddingBottom="4dp"
+                android:paddingLeft="26dp"
+                android:paddingRight="26dp"
+                android:paddingTop="4dp"
+                android:text="查看更多排行榜"
+                android:textColor="@color/black" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="FEATURED"
+
+                    android:textColor="#EEEDEE"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="推荐"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+
+            <com.github.jdsjlzx.recyclerview.LRecyclerView
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</com.mayinews.g.view.MyScrollview>
+
+
+</LinearLayout>
+
+
+    <ProgressBar
+
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+
+        android:progressDrawable="@drawable/progressbar_back"
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

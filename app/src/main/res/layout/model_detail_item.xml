@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+
+    android:focusable="true"
+    android:paddingBottom="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingRight="20dp">
+
+    <LinearLayout
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/headView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:civ_border_color="@android:color/white"
+
+            app:civ_border_width="1dp" />
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="FoxYini 孟狐狸"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:textColor="#FF3A94"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="专辑"
+                    android:textSize="10sp"
+
+                    />
+
+                <TextView
+                    android:textSize="10dp"
+                    android:id="@+id/update_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="9月1日" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:textSize="12sp"
+        android:id="@+id/desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/info"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="6dp"
+        android:text="坐在落地窗前的浴缸上，后面的风景似乎变的平淡无奇，存在也只是为了衬托 她的妩媚。" />
+
+
+
+
+
+              <ImageView
+                  android:visibility="gone"
+                  android:layout_below="@id/desc"
+                  android:layout_marginLeft="70dp"
+                  android:id="@+id/single_imageview"
+                  android:layout_width="match_parent"
+                  android:layout_height="180dp" />
+
+
+
+</RelativeLayout>
+    <com.w4lle.library.NineGridlayout
+        android:clickable="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="70dp"
+        android:paddingRight="20dp"
+        android:id="@+id/nine_grid"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+
+
+    </com.w4lle.library.NineGridlayout>
+
+    <View
+        android:layout_marginTop="20dp"
+        android:background="#F0F0F0"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <RelativeLayout
+
+       android:layout_marginLeft="70dp"
+
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <TextView
+            android:textSize="10dp"
+            android:gravity="center"
+            android:id="@+id/follow"
+
+            android:text="已被20003人订阅"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <ImageView
+
+            android:id="@+id/share"
+            android:src="@drawable/more_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
+</LinearLayout>

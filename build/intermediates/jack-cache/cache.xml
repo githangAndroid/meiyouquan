@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-WhatsApp-3.1.0.jar"
+        revision="25.0.2"
+        sha1="897c1499f19d79b08e40f77b1df62fbd451a92af">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-WhatsApp-3.1.0-e4ec65bb218b4411f512f420f06bd99b274b03e5.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Yixin-Moments-3.1.0.jar"
+        revision="25.0.2"
+        sha1="5001bfdd0f38d69404c91f53ebe4fe76bf64f3ae">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Yixin-Moments-3.1.0-8466a78ada17dd5bded1a12c8c2df03b861dccd7.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.9.0\f824591a0016efbaeddb8300bee54832a1398cfa\okio-1.9.0.jar"
+        revision="25.0.2"
+        sha1="f824591a0016efbaeddb8300bee54832a1398cfa">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\okio-1.9.0-db0545b090bbd931e1cf6e43202e038727277a7d.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\6641c1d6edd829de8bb34e4b64a75629d6d2cded\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-1c8f9a5ea21c9f7644bac9cdf72b7ded0f694c7e.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\787b20fd9f5b3ffb2c159a53ba4d4b7736ffd180\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="95519720620b553f63afc789beba9ad582807f7c">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-e29942338ca85d19ded4e7238fbd0453675b52c2.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\0b102e2f0663b945bdcb2b324f01eb399867998e\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="2c60ae5fbd4660b2b02e52ff411e88166545fe5b">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-1f7b83b3414b9529068a3db390c2faeed6a336e3.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\PullScrollView\build\intermediates\bundles\default\classes.jar"
+        revision="25.0.2"
+        sha1="63a36c2d523def25a98fd652e77558f90e93f6ca">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-f4003ac90e9bf99b1aa0c1e5dcedb6854f28126f.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\fe9224aa24c6809a754f91b0c5b7e3ab6c80e8ff\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-4d3e9cc8c114d87f6183acec476198059c55632c.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-KakaoTalk-3.1.0.jar"
+        revision="25.0.2"
+        sha1="91621de234d8adecc574fbd780e060c75fa57898">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-KakaoTalk-3.1.0-c32bf34773c156766ea36d1896399f0817c6cd68.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Flickr-3.1.0.jar"
+        revision="25.0.2"
+        sha1="bb99575f4786cc6ab92970e5a1c717208d3be354">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Flickr-3.1.0-9100f1697d625e2ca64c38830a8320b931086543.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Pocket-3.1.0.jar"
+        revision="25.0.2"
+        sha1="8e3c14e18fc927425a126fcdd0ce0a21e668f80f">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Pocket-3.1.0-e623cd8e6914b0b78d5675fe9af0c4f7a8e9bd4e.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\MobCommons-2017.0914.1125.jar"
+        revision="25.0.2"
+        sha1="572d1b40ee4bcf9366f22d7a1035bb30ef715f4f">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\MobCommons-2017.0914.1125-5a5baff6c8c73de32bc8abb5f0beba08ae59207f.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\8bb98088595ed46114477afff2344d5f73d866b3\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-c20e4656f66e5e4c6d8d8cd4e8a8a0017acb9e5e.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Evernote-3.1.0.jar"
+        revision="25.0.2"
+        sha1="031bfe1e7a701d43804817cbdd193379ed59949d">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Evernote-3.1.0-3a364e020fff9f5556d57323a21e6c7fecb54e4c.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Wechat-3.1.0.jar"
+        revision="25.0.2"
+        sha1="66b199a46f01c4470c13c70120e4312a4b84d368">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Wechat-3.1.0-3248e76eb366a9f596196a8867629425f3c6deee.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\43a1ce9226b51fc45b5438187d2b675373badf39\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-a6c1efaf013e33c43598e9ff32203d6c6b0c7937.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Instapaper-3.1.0.jar"
+        revision="25.0.2"
+        sha1="db700b058d9954c0f23947536a689e96b8b3af96">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Instapaper-3.1.0-54623c8472cf70204126992ca9f4b31361984147.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\e36ae6f2ec3a2989db66b817f30ff99e5d9dc86e\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="4a269b524cebdb449c881b26bea03983044720b5">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-36cffcd8eb1df8b6f457a13219092c1439e411b2.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-KakaoStory-3.1.0.jar"
+        revision="25.0.2"
+        sha1="b2d47bfcbd398cd4c4e6a99d9feb5b154f66c356">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-KakaoStory-3.1.0-fff330b834abe854f878a8d0c74ddcba2a92f202.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Linkedin-3.1.0.jar"
+        revision="25.0.2"
+        sha1="25e21fc80d2e26c61e64ad87d9342d5368882304">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Linkedin-3.1.0-a62dad96d1ce85a57074f72145fba1d15d2997c3.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-FacebookMessenger-3.1.0.jar"
+        revision="25.0.2"
+        sha1="c5aff45f88f8f61e4f88a2a5ede295ca5db5e176">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-FacebookMessenger-3.1.0-35aca7d6295f53ff55ef3f09b18192bbed178981.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\0964f0a5882a520c3529b87f14b0fbe361abcff4\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-f539c7b80530d7bc817b475855291a419e0200c6.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\photoview\build\intermediates\bundles\default\classes.jar"
+        revision="25.0.2"
+        sha1="54375af118b7447ab3f784b1e4338c5266832315">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-67109c5606e45a7821be182d978d056bc23170b5.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Douban-3.1.0.jar"
+        revision="25.0.2"
+        sha1="705ce89a0be9de56d70f7d35f170ec209317c958">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Douban-3.1.0-335cd490f0261f2cd3e316574159262960d97645.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Alipay-Core-3.1.0.jar"
+        revision="25.0.2"
+        sha1="af04a6f96e78aabcea8c36a8da07a77e3b230346">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Alipay-Core-3.1.0-1ff1209c283d55159a5c7999ea7dd155770839ee.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-QZone-3.1.0.jar"
+        revision="25.0.2"
+        sha1="dea402700998e6779f82356a565aed1dfc60d430">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-QZone-3.1.0-2377740ceb74aff8dc6b3b3c1c031d5e8704156b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\c3535968d23b4dae6bf71151ee5ebe13ca3ae886\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-b8df8dd3d0b425dee848859b46ecedc5397711ee.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-VKontakte-3.1.0.jar"
+        revision="25.0.2"
+        sha1="4ad7aed6608bacb4c399b7b3e3f8dbdb626c2bb5">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-VKontakte-3.1.0-b6390adff5a39d18464d0266af7dc6033aef29e7.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Renren-3.1.0.jar"
+        revision="25.0.2"
+        sha1="04cdeda7107012fba86207eb92d06ab4681c8f3f">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Renren-3.1.0-b7889a01f096d52ca5451a60d1fd7492cd2de755.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Wechat-Core-3.1.0.jar"
+        revision="25.0.2"
+        sha1="3fb3435f069578f09b2bb22dd1aad305f55f74d0">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Wechat-Core-3.1.0-a1456836a6562c8e7cec63a1b536fbaa512891d0.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Youtube-3.1.0.jar"
+        revision="25.0.2"
+        sha1="fc1a3c4a6fbee8527fc974386106b48ebf81a25a">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Youtube-3.1.0-fe63462e9b16579d59cd8d45270138b7e607af2e.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Email-3.1.0.jar"
+        revision="25.0.2"
+        sha1="69a5b2ca3bd82ace0c868e725b8ae1a90fbc5072">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Email-3.1.0-2e1ae47ca301aac76289b18dc09ce33cf5c2bacb.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
+        revision="25.0.2"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\library-2.4.0-dd460f45d27a359687729c3c169358b1eda3100b.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Mingdao-3.1.0.jar"
+        revision="25.0.2"
+        sha1="4771e4764cc822adecb2c6f5c5cf4ff09aa3313c">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Mingdao-3.1.0-b751e6581bd2a914ebae0a6b7bf68ec39679c1ea.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Yixin-Core-3.1.0.jar"
+        revision="25.0.2"
+        sha1="57f8ede4bf386ab13e84edb971b9339bee5b0795">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Yixin-Core-3.1.0-c12765bdb5803b81991282f22ba7d2c7d69696a8.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\6b601680674bc35ab68cd99e011d9c2d1d7f16e7\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="ccbd203752f184cc773e7cfec913e6ba2681c792">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-740e6223f7533508de5205e20736da3e6f24bff2.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.github.bumptech.glide\glide\3.7.0\9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4\glide-3.7.0.jar"
+        revision="25.0.2"
+        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\glide-3.7.0-1f3ddf859a86296da03fddcf50d19f29d652df81.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Kakao-Core-3.1.0.jar"
+        revision="25.0.2"
+        sha1="654b795872824252cfa3c133073c18e05d464406">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Kakao-Core-3.1.0-86fd207afc8e1d8b8d28521d92659cd6800ddab0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\ed54e2709b116d10e8ca0b9ff982cd37bd62cc82\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-1622abfba9025e9acdc1f2b6f4baa967bf573191.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Wechat-Favorite-3.1.0.jar"
+        revision="25.0.2"
+        sha1="a21e1d0fe8cc137b07afb8a57015ec0de15ff365">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Wechat-Favorite-3.1.0-776cc22c8447bc03356840c00bd5826f96b9123c.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-YouDao-3.1.0.jar"
+        revision="25.0.2"
+        sha1="c1622956703958caa29f1f5496f2c2a0768ebb4f">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-YouDao-3.1.0-043331074b4ddf5f8739450de76566f392c1845e.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Alipay-3.1.0.jar"
+        revision="25.0.2"
+        sha1="d1ad926841650d5d07c10180b7588e970e443847">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Alipay-3.1.0-20f9c5412edb5727998405804769326fc527f6e4.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\919c0b9b9ec7f720be48c9e782b7a4e166e4adf8\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="5f49fbc1bda3fa9073a82dd87de3e1ceea24268d">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-fe9975e46727832ff85b2a239e98bba54c08b8cc.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-ShortMessage-3.1.0.jar"
+        revision="25.0.2"
+        sha1="2f9d71979758b0d3883c823ddf9a6c8a3ad4ddc6">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-ShortMessage-3.1.0-f2a692fcd8163885c07bd7fdcab9ccae555f3a19.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\ee36f11882607548e0e9776387f295a6da2e4926\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-b5dd37399d3b458fe4fcff72efa1a5419271c1dc.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\9650520e77d4b60e9921c6269970c2946decf7cc\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="fe4af97065cc14c918b870a3fd76b3c8fe6a4ee2">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-ea7a77f6571d4faed90f37109f0e74a97d0c3837.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-SinaWeibo-3.1.0.jar"
+        revision="25.0.2"
+        sha1="5acedc0aeb693441d031a05aff1ffdfb93b97631">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-SinaWeibo-3.1.0-5e1bad39ca53ede912cd0638db17a43261bf06f9.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\19bfc2607cd045cbb37a0e51d01422b999aa8a83\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-c9facec0a3e3abc4192d9bcc8f7e8fff220077c1.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Core-3.1.0.jar"
+        revision="25.0.2"
+        sha1="602b73e4869da7472ea53ad74cb9a265514aa8a4">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Core-3.1.0-b35a51f620688caa5d285b28278b2154b0083585.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Meipai-3.1.0.jar"
+        revision="25.0.2"
+        sha1="cf2d11559b2b4c2b0244e049e26c8097174b1d7f">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Meipai-3.1.0-3e1edc447b9d64a8106cb55872237e89894d82bf.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\4d9d8bb9c9eaaf6770bd5370187c57eefa6f7020\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-bd32aaac0168bdaa21f50ce7e6141728bc964688.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Instagram-3.1.0.jar"
+        revision="25.0.2"
+        sha1="395195766e9b9687120d6fce29bca7a1c2ff4d84">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Instagram-3.1.0-207240a67c9d2a77231e91fb682f29fcbb76b3f3.jar" />
+    </item>
+    <item
+        jar="C:\Android\sdk\extras\m2repository\com\android\support\constraint\constraint-layout-solver\1.0.2\constraint-layout-solver-1.0.2.jar"
+        revision="25.0.2"
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\constraint-layout-solver-1.0.2-dce0f5dc4ec87302d879250c45fe5f3f72f02917.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Facebook-3.1.0.jar"
+        revision="25.0.2"
+        sha1="72618fc5dfda3cc94e271594f271a38b094659c4">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Facebook-3.1.0-f4b10e9ad0167637ee627ab02e6031dd92639a48.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\450ec76733795cf71a6d460a1d8474021986a1df\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="eb9f1cef6b29492df701111c555908cb53dece35">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-9c823ad787b94f48c497a037b7d90efced678a37.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-QQ-3.1.0.jar"
+        revision="25.0.2"
+        sha1="311a96b0128087bbb7c19b6165ef87a3980ccbf1">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-QQ-3.1.0-5a22b0c9fe4a18afcfb8ef9c09294b7fccb6aba9.jar" />
+    </item>
+    <item
+        jar="C:\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.3.1\support-annotations-25.3.1.jar"
+        revision="25.0.2"
+        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\support-annotations-25.3.1-749f92721abc8a389255a48e6bc4f467c7c672e5.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\93e8a0fb682a9bfe8a2ca0ea7bea01005ff4e5fb\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="11b5f98f9824fb3d02e0cfa6a541e34275271e9f">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-a099e031c57d21695f3c36ad695f5fcb302bf0e7.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.alibaba\fastjson\1.1.59.android\90e4e9158b95fab5ffad61b97478869038872dd7\fastjson-1.1.59.android.jar"
+        revision="25.0.2"
+        sha1="90e4e9158b95fab5ffad61b97478869038872dd7">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\fastjson-1.1.59.android-b6559ca5c6459f4b9d011a39fb0c51847770232c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\51ca91d8894f791bcf12be50dc1198c231d175ab\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="6a2bcb61342d09fe9acf55c9daf63961c8866cc0">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-616acb3cd1867726b1503a3b76783da7b4be1db0.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Twitter-3.1.0.jar"
+        revision="25.0.2"
+        sha1="6ea4c3b75803d8b83f910711810ef8dd8e7b5fb8">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Twitter-3.1.0-8f53ffb61f421274d303137505c2eaaf2591398b.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-GooglePlus-3.1.0.jar"
+        revision="25.0.2"
+        sha1="38bd6ac521013fd6acc7a702f56849ea75c6ad66">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-GooglePlus-3.1.0-e1d7de51bc80b7b37fd52839017b229186a7b271.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\MobTools-2017.0914.1125.jar"
+        revision="25.0.2"
+        sha1="5cc5255ef59c79430f7b8709cc19bf7a14efc1b5">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\MobTools-2017.0914.1125-3263c37249e552b7b04d500f4116a778b95d2005.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Line-3.1.0.jar"
+        revision="25.0.2"
+        sha1="0208db38e1d0ac5d424e44d6385e479122853c81">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Line-3.1.0-7b6bc835ea7ea94b35a77c1bbb313bdd2c9c42fd.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\512dcf42081cc03bc71dbe2454c5c23b637aae48\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-57a50361eb635a5b174b6ec3aa41aecb02d501a2.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.jakewharton\butterknife-annotations\8.8.1\bc373fb6bc7bca3035041b924f158fd2b946ee8d\butterknife-annotations-8.8.1.jar"
+        revision="25.0.2"
+        sha1="bc373fb6bc7bca3035041b924f158fd2b946ee8d">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\butterknife-annotations-8.8.1-effad51e1b924a983cf91438469a33332a23c034.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\71bac3acf20b063ea9b6448a35d3b266b69defcf\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="3305fe8fabbf56b45fa503d29d691bc84290ff23">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-5b6445a5c1730e50c3b85c5da67a69b60e134b71.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\12540c4fc98d2b65108b936a4a0a1b537ebc5650\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="77a3708405f2f35445d7533217d93b8b10bec62f">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-2e463439991e5f5f1663000e2eb903fa48ec05a0.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Wechat-Moments-3.1.0.jar"
+        revision="25.0.2"
+        sha1="dece32686922fe8132cd1f7adc34893900939bd9">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Wechat-Moments-3.1.0-4958e3e4101cc0b319911043b641ad8715b5f137.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Dingding-3.1.0.jar"
+        revision="25.0.2"
+        sha1="4208c5d3a9fc97c0ae40b0c548e6bd9c5fd49b9a">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Dingding-3.1.0-77dfea12848aeac643a643ecc3092da38f6a6bd9.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-KaiXin-3.1.0.jar"
+        revision="25.0.2"
+        sha1="8b058c86dabbffa93d4ebd19ee92e88f30b657ed">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-KaiXin-3.1.0-cb4c6fddbc38fb69b937d125a7ed39a02f8ffbf1.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\aaee16bd6ca24fe6293f317f473e5177ed4215ff\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="a2af9c72ccaa4c5c049b500ca6ea664a4ce1f7d4">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-598ac0d66dea827d68c2d41942721951c340ba0b.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\LRecyclerview_library\build\intermediates\bundles\default\classes.jar"
+        revision="25.0.2"
+        sha1="c2d7debbf5635c07e87bad455a6e01f2354135eb">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-57c6af306110a83e2062773d664256f4839e897f.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Alipay-Moments-3.1.0.jar"
+        revision="25.0.2"
+        sha1="4ec67a601a4f8103e3966f01017ffa7c644f1434">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Alipay-Moments-3.1.0-c871868f662d01363cdb537556438b66b7244696.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp\3.4.1\c7c4f9e35c2fd5900da24f9872e3971801f08ce0\okhttp-3.4.1.jar"
+        revision="25.0.2"
+        sha1="c7c4f9e35c2fd5900da24f9872e3971801f08ce0">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\okhttp-3.4.1-a3a718343956c6e4d917a53a4fdd4a4dc134cda5.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Foursquare-3.1.0.jar"
+        revision="25.0.2"
+        sha1="36dbeca28054df4b56cb59481e5b04370ecc6de6">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Foursquare-3.1.0-b461eb138cb5eb835838e1ed01e88af7c6b6c4a7.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Dropbox-3.1.0.jar"
+        revision="25.0.2"
+        sha1="2a901e8a8f87b8c28e4c69adc36ac8060dca0c86">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Dropbox-3.1.0-66a292c906a37d39aa84d79d34c1c070c69267fd.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\617ba72982d17275828fd290c83d8b89f553eb03\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-4b62e4e26d0091c667e53e380455529feb597c21.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Tumblr-3.1.0.jar"
+        revision="25.0.2"
+        sha1="3dc7956a9c9bd8ee858b18928a8c05d279953fb5">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Tumblr-3.1.0-f9516d4aafd9c821aa51f764ab02eee3c0799bcb.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-TencentWeibo-3.1.0.jar"
+        revision="25.0.2"
+        sha1="9502a6b5a48a2d44ceb49d137e746f60518f67d9">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-TencentWeibo-3.1.0-8f42f692d1470dbf403557646adf9f3c917cbbe0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.android\build-cache\af2c046adde23ba278f352b8c1126be12d5d7a10\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="155fef2600f48631a9e9665c0873743b6d24e324">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-9a124dce31e1c9856d344a0177d45dd9c752483c.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Pinterest-3.1.0.jar"
+        revision="25.0.2"
+        sha1="e4242e91088df1529722e78551f3f44ef6062d6a">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Pinterest-3.1.0-8ce6dd46f775315c41a18d4eb9d0f95be79ca046.jar" />
+    </item>
+    <item
+        jar="C:\work\MayiMagazine\app\libs\ShareSDK-Yixin-3.1.0.jar"
+        revision="25.0.2"
+        sha1="0cfe082b8d239ebac55a48af38fde038998559a4">
+        <dex dex="C:\work\MayiMagazine\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\ShareSDK-Yixin-3.1.0-9a368c928842bbcceebb6023e7cac92de0bf0aeb.jar" />
+    </item>
+
+</items>

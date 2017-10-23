@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="#F0F0F0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     android:orientation="vertical">
+    <TextView
+        android:textColor="@color/blac70"
+        android:paddingLeft="8dp"
+        android:gravity="center_vertical"
+        android:text="互动"
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
+
+    <LinearLayout
+        android:background="@color/white"
+        android:paddingLeft="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+       <ImageView
+           android:src="@drawable/test_icon"
+           android:layout_width="20dp"
+           android:layout_height="20dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/com_RecyclerView"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:paddingRight="16dp"
+            android:gravity="center"
+            android:text="最近收藏"
+            android:paddingLeft="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listView"
+        android:background="@color/white"
+        android:layout_marginTop="6dp"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+    </ListView>
+
+    <RelativeLayout
+        android:padding="8dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/com_comment"
+            android:padding="6dp"
+            android:background="@drawable/comment_backgroud"
+            android:text="评论吧..."
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
+</LinearLayout>
