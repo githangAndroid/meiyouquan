@@ -17,9 +17,12 @@ import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.mayinews.g.R;
 import com.mayinews.g.album.adapter.MyLrecyclerAdapter;
 
+import com.mayinews.g.app.MyApplication;
 import com.mayinews.g.home.activity.ModelDetailActivity;
 import com.mayinews.g.home.activity.PhotosActivity;
 import com.mayinews.g.home.bean.HomeReBean;
+import com.mayinews.g.user.activity.LoginActivity;
+import com.mayinews.g.utils.SPUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -118,10 +121,19 @@ public class NewestFragment extends Fragment {
 //                        Intent intent = new Intent(getActivity(), ModelDetailActivity.class);
 //                        intent.putExtra("data",pData);
 //                        startActivity(intent);
-                        String id = data.get(position).getId();
-                        Intent intent = new Intent(getActivity(), PhotosActivity.class);
-                        intent.putExtra("id",id);
-                        startActivity(intent);
+
+
+                        String status  = (String) SPUtils.get(getActivity(), MyApplication.LOGINSTATUES, "0");
+                         if(status.equals("1")){
+                             String id = data.get(position).getId();
+                             Intent intent = new Intent(getActivity(), PhotosActivity.class);
+                             intent.putExtra("id",id);
+                             startActivity(intent);
+                         }else {
+
+                             startActivity(new Intent(getActivity(), LoginActivity.class));
+                         }
+
 
 
                     }
