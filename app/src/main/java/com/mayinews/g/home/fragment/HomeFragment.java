@@ -40,7 +40,9 @@ import com.mayinews.g.home.adapter.VAdapter;
 import com.mayinews.g.home.adapter.VRcAdapter;
 import com.mayinews.g.home.bean.HomeReBean;
 import com.mayinews.g.home.bean.ModelTagBean;
+import com.mayinews.g.user.activity.LoginActivity;
 import com.mayinews.g.utils.Constant;
+import com.mayinews.g.utils.SPUtils;
 import com.mayinews.g.view.FullyGridLayoutManager;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -63,6 +65,7 @@ import com.mayinews.g.utils.DisplayUtil;
 import com.mayinews.g.utils.NetworkUtils;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
+import static com.mayinews.g.utils.SPUtils.get;
 
 /**
  * Created by 盖航_ on 2017/8/29.
@@ -135,8 +138,14 @@ public class HomeFragment extends Fragment implements VRcAdapter.OnItemClickLite
             @Override
             public void onClick(View v) {
                 // 打开更多排行榜
+                String state = (String) SPUtils.get(getActivity(),MyApplication.LOGINSTATUES,"0");
+                if(state.equals("1")){
+                    startActivity(new Intent(getActivity(), MoreRankActivity.class));
+                }else{
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
 
-                startActivity(new Intent(getActivity(), MoreRankActivity.class));
+                }
+
 
             }
         });
