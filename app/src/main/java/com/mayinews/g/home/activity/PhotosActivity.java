@@ -23,6 +23,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,11 +33,17 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 import com.mayinews.g.R;
+import com.mayinews.g.app.MyApplication;
 import com.mayinews.g.home.adapter.ImagesAdapter;
 import com.mayinews.g.home.bean.SingleAlbum;
+import com.mayinews.g.utils.Constant;
+import com.mayinews.g.utils.SPUtils;
 import com.mayinews.g.view.CanotSlidingViewpager;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -82,6 +89,8 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
     RelativeLayout topView;
     @BindView(R.id.tv_nodata)
     TextView tvNodata;
+    @BindView(R.id.progress)
+    ProgressBar progress;
 
 
     private boolean isShow = false;//图片上下的布局是否显示,默认不显示
@@ -101,7 +110,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
     private String desc;//描述
     private boolean isShowed;//标记水印水否显示过
     private TextView tvDesc;  //水印的描述
-
+    private String gid;//专辑得id
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,6 +132,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
             public void onPageSelected(int position) {
                 currentPage.setText(position + 1 + "");
                 imagePosition = position;
+
                 if (position == 8) {
                     //禁止左滑
                     viewPager.setScrollble(false);
@@ -172,7 +182,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
             Log.e("TAG", "size" + size);
             totalPage.setText("/" + size);
             desc = intent.getStringExtra("desc");
-
+            gid=intent.getStringExtra("gid");
             Glide.with(this).load(buildGlideUrl("http://static.mayinews.com" + avatar)).into(userAvatar);
             initImageViewPager();
         } else {
@@ -195,26 +205,26 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
                     if (singleAlbum.getStatus() == 200) {
 
                         data = singleAlbum.getResult().getPicture();
-                         if(data!=null && data.size()>0){
-
-                             totalPage.setText("/" + data.size());
-                             desc = singleAlbum.getResult().getDescription();
-                             initImageViewPager();
-                         }else{
-                             currentPage.setVisibility(View.GONE);
-                             window.dismiss();
-                             viewPager.setVisibility(View.GONE);
-                             //没有数据或者出错
-                             tvNodata.setVisibility(View.VISIBLE);
-                             tobBottom.setVisibility(View.GONE);
-                         }
+                        if (data != null && data.size() > 0) {
+                            gid=singleAlbum.getResult().getId();
+                            totalPage.setText("/" + data.size());
+                            desc = singleAlbum.getResult().getDescription();
+                            initImageViewPager();
+                        } else {
+                            currentPage.setVisibility(View.GONE);
+                            window.dismiss();
+                            viewPager.setVisibility(View.GONE);
+                            //没有数据或者出错
+                            tvNodata.setVisibility(View.VISIBLE);
+                            tobBottom.setVisibility(View.GONE);
+                        }
 
                     } else {
                         currentPage.setVisibility(View.GONE);
                         window.dismiss();
                         viewPager.setVisibility(View.GONE);
                         //没有数据或者出错
-                          tvNodata.setVisibility(View.VISIBLE);
+                        tvNodata.setVisibility(View.VISIBLE);
                     }
 
 
@@ -343,12 +353,14 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
             }
 
 
+
+
         });
         viewPager.setAdapter(adapter);
     }
 
 
-    @OnClick({R.id.back, R.id.tv_comment, R.id.rl_comments, R.id.rl_shared})
+    @OnClick({R.id.back, R.id.tv_comment, R.id.rl_comments, R.id.rl_shared,R.id.rl_collection})
     public void listener(View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -371,6 +383,53 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.rl_shared:
 
 //                showShare();
+                break;
+            case R.id.rl_collection:
+                    //收藏专辑
+                String token= (String) SPUtils.get(this,MyApplication.TOKEN,"");
+                OkHttpUtils.post().url(Constant.FAVOR).addHeader("Authorization","Bearer "+token)
+                        .addParams("gid",gid)
+                        .build()
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onError(Call call, Exception e, int id) {
+                                Toast.makeText(PhotosActivity.this, "系统错误,稍后再试", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onResponse(String response, int id) {
+
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    int status = jsonObject.optInt("status");
+                                    if(status==200){
+                                        JSONObject result = jsonObject.getJSONObject("result");
+                                        String del = result.optString("del");
+                                         if(del.equals("1")){
+                                             Toast.makeText(PhotosActivity.this, "取消收藏成功", Toast.LENGTH_SHORT).show();
+
+                                         }else{
+                                             Toast.makeText(PhotosActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
+                                         }
+
+
+                                    }else{
+
+                                        Toast.makeText(PhotosActivity.this, "系统错误,稍后再试", Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        });
+
+
+
+
+
+
+//
                 break;
 
 
