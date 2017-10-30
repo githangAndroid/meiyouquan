@@ -36,8 +36,8 @@ dependencies {
     compile('com.alibaba.android:vlayout:1.1.0@aar') {
         transitive = true
     }
-    compile project(':LRecyclerview_library')
     // If you want to use the GPU Filters
+    compile project(':LRecyclerview_library')
     compile project(':photoview')
     compile files('libs/MobCommons-2017.0914.1125.jar')
     compile files('libs/MobTools-2017.0914.1125.jar')
@@ -108,6 +108,14 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
     compile 'com.github.nanchen2251:CompressHelper:1.0.5'
     compile 'com.github.yalantis:ucrop:2.2.1'
+
+//     检查内存泄漏工具
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+
+
+
+
 }
 
 
