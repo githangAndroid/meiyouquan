@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 import com.mayinews.g.R;
 import com.mayinews.g.app.MyApplication;
 import com.mayinews.g.user.activity.HaveBuyActivity;
@@ -23,12 +28,14 @@ import com.mayinews.g.user.activity.PayActivity;
 import com.mayinews.g.user.activity.PersonalDataActivity;
 import com.mayinews.g.user.activity.SettingActivity;
 import com.mayinews.g.user.activity.UnReadActivity;
+import com.mayinews.g.utils.Constant;
 import com.mayinews.g.utils.SPUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.mayinews.g.R.id.ll_noLogin;
 import static com.mayinews.g.R.id.ll_setData;
@@ -84,6 +91,8 @@ public class UserFragment extends Fragment {
     ImageView ivShare;
     @BindView(R.id.iv_setting)
     ImageView ivSetting;
+    @BindView(R.id.login_head)
+    CircleImageView loginHead;
     private Unbinder unbinder;
     private ImageView image;
     private TextView title;
@@ -145,30 +154,61 @@ public class UserFragment extends Fragment {
                 startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
             case R.id.rl_pay:
-                startActivity(new Intent(getActivity(), PayActivity.class));
+                if(isLogin()){
+                    startActivity(new Intent(getActivity(), PayActivity.class));
+                }else{
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                }
+
 
                 break;
             case R.id.rl_payed:
-                startActivity(new Intent(getActivity(), HaveBuyActivity.class));
+                if(isLogin()){
+                    startActivity(new Intent(getActivity(), HaveBuyActivity.class));
+                }else{
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                }
+
 
                 break;
             case R.id.rl_vip:
 
                 Toast.makeText(getActivity(), "VIP功能马上开放", Toast.LENGTH_SHORT).show();
                 break;
+            //收藏页面
             case R.id.rl_collection:
-                startActivity(new Intent(getActivity(), MyCollectionActivity.class));
+                if(isLogin()){
+                    startActivity(new Intent(getActivity(), MyCollectionActivity.class));
+                }else{
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                }
+
 
                 break;
             case R.id.rl_unread:
-                startActivity(new Intent(getActivity(), UnReadActivity.class));
+                if(isLogin()){
+                    startActivity(new Intent(getActivity(), UnReadActivity.class));
+                }else{
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                }
+
                 break;
             case R.id.rl_order:
-                startActivity(new Intent(getActivity(), OrderActivity.class));
+                if(isLogin()){
+                    startActivity(new Intent(getActivity(), OrderActivity.class));
+                }else{
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                }
+
                 break;
             case R.id.rl_shared:
+                if(isLogin()){
+                    Toast.makeText(getActivity(), "分享", Toast.LENGTH_SHORT).show();
+                }else{
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                }
 
-                Toast.makeText(getActivity(), "分享", Toast.LENGTH_SHORT).show();
+
                 break;
             case ll_setData:
                 //进入个人资料设置页面
@@ -189,11 +229,37 @@ public class UserFragment extends Fragment {
             llYesLogin.setVisibility(View.VISIBLE);
             llNoLogin.setVisibility(View.GONE);
 //            login.setText("默认用户");
+            //设置昵称
+            String nickname = (String) SPUtils.get(getActivity(), MyApplication.USERNICKNAME, "");
+            String avatar = (String) SPUtils.get(getActivity(), MyApplication.USERAVATAR, "");
+            tvNickName.setText(nickname);
+            Glide.with(getActivity()).load(buildGlideUrl(avatar)).into(loginHead);
+            Log.e("TAG","RRESUME="+"nickname="+nickname+"  avatar"+avatar);
 
         } else {//非登录状态
             llNoLogin.setVisibility(View.VISIBLE);
             llYesLogin.setVisibility(View.GONE);
             login.setText("登录");
         }
+    }
+
+
+    private GlideUrl buildGlideUrl(String url) {
+        if (TextUtils.isEmpty(url)) {
+            return null;
+        } else {
+            return new GlideUrl(url, new LazyHeaders.Builder().addHeader("Referer", "http://m.mayinews.com").build());
+        }
+    }
+
+    //判断当前是否为登录状态
+    public boolean isLogin(){
+          String state = (String) SPUtils.get(getActivity(),MyApplication.LOGINSTATUES,"0");
+        if (state.equals("1")){
+             return  true;
+        }else{
+            return  false;
+        }
+
     }
 }
