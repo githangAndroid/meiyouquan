@@ -2,6 +2,8 @@ package com.mayinews.g.home.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,6 +15,10 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.github.chrisbanes.photoview.PhotoView;
 
 import java.util.List;
@@ -53,20 +59,49 @@ public class ImagesAdapter extends PagerAdapter{
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
 //        ImageView imageView = new ZoomImageView(context);
-        PhotoView imageView = new PhotoView(context);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+          PhotoView imageView = new PhotoView(context);
+//        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 //        imageView.setAdjustViewBounds(true);
 
 
         Log.e("TAG","PA"+imageUrls.get(position));
-        Glide.with(context).load(buildGlideUrl("http://static.mayinews.com"+imageUrls.get(position)))
 
-                .into(imageView);
+
+        Glide.with(context).load(buildGlideUrl("http://static.mayinews.com"+imageUrls.get(position)))
+                .asBitmap()
+//                .into(imageView);
+
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        int width = resource.getWidth();
+                        int height = resource.getHeight();
+                        if(width>height){
+
+                            //图片顺时针旋转180度
+                            Matrix matrix = new Matrix();
+                            matrix.postRotate(90);
+                            Bitmap bitmap = Bitmap.createBitmap(resource, 0, 0, resource.getWidth(), resource.getHeight(), matrix, true);
+                            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                            imageView.setImageBitmap(bitmap);
+
+                        }else{
+
+                            //正常显示图片
+                            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                            imageView.setAdjustViewBounds(false );
+                            imageView.setImageBitmap(resource);
+                        }
+                    }
+                });
+
+
 
 
         Log.e("TAG","listener="+listener);
         if(listener!=null){
-
+            
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

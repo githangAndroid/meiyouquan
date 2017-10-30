@@ -245,10 +245,10 @@ LoginActivity extends AppCompatActivity {
 
                             //保存信息
 
-                            SPUtils.put(LoginActivity.this, Constant.USERID, uid);
-                            SPUtils.put(LoginActivity.this, Constant.USERAVATAR, avatar);
-                            SPUtils.put(LoginActivity.this, Constant.USERNICKNAME, nickname);
-                            SPUtils.put(LoginActivity.this, Constant.USERSEX, sex);
+                            SPUtils.put(LoginActivity.this, MyApplication.USERID, uid);
+                            SPUtils.put(LoginActivity.this, MyApplication.USERAVATAR, avatar);
+                            SPUtils.put(LoginActivity.this, MyApplication.USERNICKNAME, nickname);
+                            SPUtils.put(LoginActivity.this, MyApplication.USERSEX, sex);
                             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                             Log.e("TAG", "uid" + uid + " avatar" + avatar + " nickname" + nickname + " sex" + sex);
                             finish();

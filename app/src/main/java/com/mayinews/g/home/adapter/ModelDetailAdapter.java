@@ -16,10 +16,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 import com.mayinews.g.R;
+import com.mayinews.g.app.MyApplication;
 import com.mayinews.g.home.activity.PhotosActivity;
 import com.mayinews.g.home.bean.HomeReBean;
 import com.mayinews.g.home.bean.ModelDetailBean1;
 import com.mayinews.g.home.bean.ModelDetailBean2;
+import com.mayinews.g.user.activity.LoginActivity;
+import com.mayinews.g.utils.SPUtils;
 import com.w4lle.library.NineGridAdapter;
 import com.w4lle.library.NineGridlayout;
 
@@ -80,6 +83,8 @@ public class ModelDetailAdapter extends RecyclerView.Adapter<ModelDetailAdapter.
         String upTime = date.getMonth()+1 +"月"+(date.getDay()+1)+"日";
         holder.updateTime.setText(upTime);
         List<String> picture = resultBean.getPicture();
+        String view = resultBean.getView();
+        holder.view.setText("已被"+view+"人看过");
 
         //设置图片九宫格
 
@@ -96,15 +101,27 @@ public class ModelDetailAdapter extends RecyclerView.Adapter<ModelDetailAdapter.
              holder.ivMore.setOnItemClickListerner(new NineGridlayout.OnItemClickListerner() {
                  @Override
                  public void onItemClick(View view, int position) {
-                     //进入viewpager显示图片
-                     Intent intent = new Intent(context, PhotosActivity.class);
-                     String actor_avatar = data.getAvatar();
-                     String description = data.getDesc();
-                     List<String> images = result.get(beanPosition).getPicture();
-                     intent.putExtra("avatar",actor_avatar);
-                     intent.putExtra("desc",description);
-                     intent.putStringArrayListExtra("images", (ArrayList<String>) images);
-                     context.startActivity(intent);
+
+
+                     String status = (String) SPUtils.get(context, MyApplication.LOGINSTATUES, "0");
+                     if (status.equals("1")) {
+                         //进入viewpager显示图片
+                         Intent intent = new Intent(context, PhotosActivity.class);
+                         String actor_avatar = data.getAvatar();
+                         String description = data.getDesc();
+                         List<String> images = result.get(beanPosition).getPicture();
+
+                         intent.putExtra("avatar",actor_avatar);
+                         intent.putExtra("desc",description);
+                         intent.putExtra("gid",data.getId());//专辑的id
+                         intent.putStringArrayListExtra("images", (ArrayList<String>) images);
+                         context.startActivity(intent);
+
+                     }else{
+
+                         context.startActivity(new Intent(context, LoginActivity.class));
+                     }
+
                  }
              });
 
@@ -133,7 +150,7 @@ public class ModelDetailAdapter extends RecyclerView.Adapter<ModelDetailAdapter.
         LinearLayout images;
         public TextView desc;
        public  NineGridlayout ivMore;
-        public TextView follow;
+        public TextView view;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -142,7 +159,7 @@ public class ModelDetailAdapter extends RecyclerView.Adapter<ModelDetailAdapter.
             updateTime = (TextView) itemView.findViewById(R.id.update_time);
             desc = (TextView) itemView.findViewById(R.id.desc);
             ivMore = (NineGridlayout) itemView.findViewById(R.id.nine_grid);
-
+             view = (TextView) itemView.findViewById(R.id.view);
 
 
 

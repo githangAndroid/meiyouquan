@@ -23,6 +23,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -35,21 +36,36 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 import com.mayinews.g.R;
+import com.mayinews.g.app.MyApplication;
+import com.mayinews.g.user.bean.PostAvaterResultBean;
+import com.mayinews.g.utils.Constant;
+import com.mayinews.g.utils.SPUtils;
 import com.nanchen.compresshelper.CompressHelper;
 import com.yalantis.ucrop.UCrop;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.logging.Level;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.Call;
 
 import static android.R.attr.data;
+import static cn.sharesdk.yixin.utils.YXMessage.MessageType.FILE;
 
 
 public class PersonalDataActivity extends AppCompatActivity {
@@ -77,7 +93,8 @@ public class PersonalDataActivity extends AppCompatActivity {
 
     File outputImage;
     private Uri imageUrl;
-
+    private AlertDialog sexDialog;  //选择性别的
+    String token;//token
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,15 +103,39 @@ public class PersonalDataActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         title.setText("我的");
         File file = new File(getExternalCacheDir(), "head.jpg");
-        if(file!=null){
+
+
+        boolean exists = file.exists();
+        Log.e("TAG", "exists===" + exists);
+        if (exists) {
             displayImage(file.getAbsolutePath());
         }
+
+
+
+        //设置昵称
+        String nickname = (String) SPUtils.get(this, MyApplication.USERNICKNAME, "");
+        //1获取token
+       token = (String) SPUtils.get(this, MyApplication.TOKEN, "");
+        String sex = (String) SPUtils.get(this, MyApplication.USERSEX, "");
+        if (nickname != null && !nickname.equals("")) {
+            etNickname.setText(nickname);
+        }
+        if(sex.equals("0")){
+            tvSex.setText("男");
+        }else if(sex.equals("1")){
+            tvSex.setText("女");
+        }
+        Log.e("TAG","姓名"+nickname+"   性别"+sex);
+
+        String avatar = (String) SPUtils.get(this, MyApplication.USERAVATAR, "");
+        Glide.with(this).load(buildGlideUrl(avatar)).into(headView);
 
 
     }
 
 
-    @OnClick({R.id.iv_back, R.id.headView})
+    @OnClick({R.id.iv_back, R.id.headView, R.id.tv_sex, R.id.btn_finish})
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -105,17 +146,125 @@ public class PersonalDataActivity extends AppCompatActivity {
                 //打开头像选择
                 showHeadDialog();
                 break;
-            case R.id.tv_photo:
+            case R.id.tv_sex:
+                //打开性别选择框
+                showChooseSexDialog();
 
                 break;
-            case R.id.tv_camera:
+            case R.id.btn_finish:
+                //执行保存接口
+                //1 判断昵称是否为空
+                if (etNickname.getText().toString().isEmpty()) {
+                    Toast.makeText(this, "昵称不能为空", Toast.LENGTH_SHORT).show();
+                } else {
+                    //保存
+
+
+                    OkHttpUtils.post().url(Constant.SETNICKNAME).addHeader("authorization", "Bearer " + token)
+                            .addParams("nickname", etNickname.getText().toString())
+                            .build().execute(new StringCallback() {
+                        @Override
+                        public void onError(Call call, Exception e, int id) {
+                        }
+
+                        @Override
+                        public void onResponse(String response, int id) {
+
+
+                            //执行保存头像功能
+                           saveHeanIcon();
+
+                        }
+                    });
+                }
 
                 break;
-            case R.id.tv_cancle:
 
-                break;
 
         }
+
+
+    }
+
+    private void saveHeanIcon() {
+        if(outputImage!=null){
+
+
+        OkHttpUtils.post()
+                .url(Constant.SETUSERAVATAR)
+                .addHeader("Authorization","Bearer "+token)
+                .addFile("file","avatar.jpg",outputImage)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                           Log.e("TAG","错误="+e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        PostAvaterResultBean resultBean = JSON.parseObject(response, PostAvaterResultBean.class);
+                        if(resultBean.getStatus()==200){
+
+                            PostAvaterResultBean.ResultBean result = resultBean.getResult();
+                            String path = result.getPath();
+                            //保存更新后的头像地址
+                            SPUtils.put(PersonalDataActivity.this,MyApplication.USERAVATAR,path);
+                            Toast.makeText(PersonalDataActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(PersonalDataActivity.this, "设置失败请稍后再试", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+        }
+
+    }
+
+    private void showChooseSexDialog() {
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View choseHeadView = View.inflate(this, R.layout.chose_sex_dialog, null);
+
+        sexDialog = builder.create();
+        sexDialog.setView(choseHeadView);
+        Window window = sexDialog.getWindow();
+        window.setGravity(Gravity.BOTTOM);
+        window.setBackgroundDrawableResource(android.R.color.transparent);
+        sexDialog.show();
+        WindowManager windowManager = getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = sexDialog.getWindow().getAttributes();
+        lp.width = (int) (display.getWidth() - 4); //设置宽度
+        sexDialog.getWindow().setAttributes(lp);
+
+        TextView tvMan = (TextView) choseHeadView.findViewById(R.id.tv_man);
+        TextView tvWoman = (TextView) choseHeadView.findViewById(R.id.tv_woman);
+        TextView tvCancle = (TextView) choseHeadView.findViewById(R.id.tv_cancle);
+
+        tvMan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //设置相别为男
+                tvSex.setText("男");
+                sexDialog.dismiss();
+            }
+        });
+
+        tvWoman.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvSex.setText("女");
+                sexDialog.dismiss();
+            }
+        });
+        tvCancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sexDialog.dismiss();
+            }
+        });
 
 
     }
@@ -154,21 +303,20 @@ public class PersonalDataActivity extends AppCompatActivity {
                 }
 
 
-
                 //打开相机
                 CreateFile();
-                if(Build.VERSION.SDK_INT>=24){
-                   imageUrl = FileProvider.getUriForFile(PersonalDataActivity.this,"com.mayines.g",file);
+                if (Build.VERSION.SDK_INT >= 24) {
+                    imageUrl = FileProvider.getUriForFile(PersonalDataActivity.this, "com.mayines.g", file);
 
-                }else{
+                } else {
                     imageUrl = Uri.fromFile(file);
                 }
 
                 //启动相机
 
                 Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-               intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUrl);
-                startActivityForResult(intent,TAKE_PHOTO);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUrl);
+                startActivityForResult(intent, TAKE_PHOTO);
                 dialog.dismiss();
             }
         });
@@ -254,11 +402,15 @@ public class PersonalDataActivity extends AppCompatActivity {
 //                    handleImageBeforeKitKat(resultUri);
 //
 //                }
+
+
+
                     displayImage(outputImage.getAbsolutePath());
+
                     break;
 
                 case TAKE_PHOTO:
-                     //进入裁剪
+                    //进入裁剪
                     startCropActivity(imageUrl);
                     break;
             }
@@ -362,6 +514,15 @@ public class PersonalDataActivity extends AppCompatActivity {
 
 
     }
+    private GlideUrl buildGlideUrl(String url) {
+        if (TextUtils.isEmpty(url)) {
+            return null;
+        } else {
+            return new GlideUrl(url, new LazyHeaders.Builder().addHeader("Referer", "http://m.mayinews.com").build());
+        }
+
+    }
+
 
 
 }

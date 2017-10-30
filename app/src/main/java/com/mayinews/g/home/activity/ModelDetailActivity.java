@@ -23,11 +23,13 @@ import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.markmao.pullscrollview.ui.widget.PullScrollView;
 
 import com.mayinews.g.R;
+import com.mayinews.g.app.MyApplication;
 import com.mayinews.g.home.adapter.ModelDetailAdapter;
 import com.mayinews.g.home.bean.HomeReBean;
 import com.mayinews.g.home.bean.ModelDetailBean1;
 import com.mayinews.g.home.bean.ModelDetailBean2;
 import com.mayinews.g.utils.Constant;
+import com.mayinews.g.utils.SPUtils;
 import com.mayinews.g.view.FullyLinearLayoutManager;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -40,7 +42,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import com.mayinews.g.utils.NetworkUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import static android.R.attr.data;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 /**
  * 主页下面的模特点击后的页面
@@ -65,6 +72,9 @@ public class ModelDetailActivity extends AppCompatActivity{
     TextView attention;
 
      ImageView iv_back;
+
+    String token; //token；
+
     @BindView(R.id.lRecyclerView)
     LRecyclerView lRecyclerView;
 //    @BindView(R.id.rootView)
@@ -105,14 +115,11 @@ public class ModelDetailActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
 
-                if(!isAtten){
-                    attention.setText("取消成功");
-                    Toast.makeText(ModelDetailActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
-                }else{
-                     attention.setText("关注Ta");
-                    Toast.makeText(ModelDetailActivity.this, "取消成功", Toast.LENGTH_SHORT).show();
-                }
-                   isAtten=!isAtten;
+                  AttenAva();
+
+
+
+
 
             }
         });
@@ -131,6 +138,9 @@ public class ModelDetailActivity extends AppCompatActivity{
           RequestInfoData(aid);// 请求页面上半部分的信息数据
 //        RequestLreData(); //请求下面的数据
     }
+
+
+
     protected void initView() {
         mScrollView = (PullScrollView) findViewById(com.markmao.pullscrollview.R.id.scroll_view);
         mHeadImg = (ImageView) findViewById(com.markmao.pullscrollview.R.id.background_img);
@@ -295,6 +305,51 @@ public class ModelDetailActivity extends AppCompatActivity{
         }
     }
 
+    //关注作者和取消关注
+    private void AttenAva() {
+        if(token==null && !token.equals("")){
+            SPUtils.get(this, MyApplication.TOKEN,"");
+        }
 
+        OkHttpUtils.post().url(Constant.POSTAVATAR).addHeader("Authorization","Bearer "+token)
+                .addParams("follow",aid).build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("TAG","关注请求结果="+response);
+                        try {
+                            JSONObject josnObj=new JSONObject(response);
+                            int status = josnObj.optInt("status");
+                            if(status==200){
+                                JSONObject result = josnObj.optJSONObject("result");
+                                int del = result.optInt("del");
+                                if(del==1){
+
+                                        attention.setText("取消成功");
+                                        Toast.makeText(ModelDetailActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
+
+
+
+                                }else{
+                                    attention.setText("关注Ta");
+                                    Toast.makeText(ModelDetailActivity.this, "取消成功", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }else{
+
+
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
 
 }

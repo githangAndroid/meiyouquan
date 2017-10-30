@@ -130,9 +130,9 @@
         <TextView
             android:textSize="10dp"
             android:gravity="center"
-            android:id="@+id/follow"
+            android:id="@+id/view"
 
-            android:text="已被20003人订阅"
+            android:text="已被20003人看过"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
