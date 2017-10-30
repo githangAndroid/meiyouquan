@@ -17,6 +17,8 @@ import butterknife.ButterKnife;
 import com.mayinews.g.utils.CacheUtil;
 import com.mayinews.g.utils.SPUtils;
 
+import static com.mayinews.g.utils.CacheUtil.clearAllCache;
+
 public class SettingActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.iv_back)
@@ -55,6 +57,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.checkVersion:
                 Toast.makeText(SettingActivity.this, "当前版本为最新版", Toast.LENGTH_SHORT).show();
+
                 break;
 
             case R.id.iv_back:
