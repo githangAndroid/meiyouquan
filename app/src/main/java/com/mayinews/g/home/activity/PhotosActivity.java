@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -33,6 +35,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 import com.mayinews.g.R;
+import com.mayinews.g.album.adapter.CommenrRcyAdapter;
+import com.mayinews.g.album.adapter.CommentsAdapter;
+import com.mayinews.g.album.bean.CommentBean;
+import com.mayinews.g.album.bean.FollowingBean;
 import com.mayinews.g.app.MyApplication;
 import com.mayinews.g.home.adapter.ImagesAdapter;
 import com.mayinews.g.home.bean.SingleAlbum;
@@ -45,6 +51,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -52,6 +59,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
+
+import static com.mayinews.g.R.id.avatar;
+import static com.mayinews.g.R.id.view;
 
 public class PhotosActivity extends AppCompatActivity implements View.OnClickListener {
     List<String> data;
@@ -102,15 +112,22 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
     private PopupWindow commentListPopWindow = null;
     private ListView comList;//评论的listView
     private RecyclerView comRecyclerView;//评论页面显示收藏的RecyclerView
-    private String avatar = null;//图像的url
-    private int imagePosition;
+
+
 
     private PopupWindow window;//水印的pop
-    private Handler handler = new Handler();
+
     private String desc;//描述
     private boolean isShowed;//标记水印水否显示过
     private TextView tvDesc;  //水印的描述
     private String gid;//专辑得id
+    private List<CommentBean.ResultBean> comments;//评论数据
+    private String token;  //token；
+    private String avatar;  //头像地址；
+    private String nickname;  //用户昵称；
+    private int imagePosition;
+    private CommentsAdapter commentAdapter = new CommentsAdapter(this);;  //评论适配器
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -170,7 +187,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
          */
         initPop();     //充Vip的popwindow
         showComPop();   // 发送评论的popWindow
-        initListPop();//评论列表的popwindow
+//        initListPop();//评论列表的popwindow
         showPopwindow();//水印
         Intent intent = getIntent();
 
@@ -234,8 +251,19 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
 
         }
 
+
+          //获取用户信息
+          getUserInfo();
 //        initImageViewPager();
 //        initPop();
+
+
+    }
+
+    private void getUserInfo() {
+        token = (String) SPUtils.get(this,MyApplication.TOKEN,"");
+        avatar = (String) SPUtils.get(this,MyApplication.USERAVATAR,"");
+        nickname = (String) SPUtils.get(this,MyApplication.USERNICKNAME,"");
 
 
     }
@@ -375,9 +403,9 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.rl_comments:
 
                 //进入评论的pop,显示在上面状态栏下
+                initListPop();//评论列表的popwindow
 
 
-                commentListPopWindow.showAsDropDown(topView);
                 break;
 
             case R.id.rl_shared:
@@ -439,9 +467,11 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
     //显示评论的pop
     private void showCommentPop() {
         commentPopWindow.showAtLocation(rootView, Gravity.BOTTOM, 0, 0);
+
     }
 
     private void initListPop() {
+//        commentAdapter = new CommentsAdapter(this);
         View view = LayoutInflater.from(this).inflate(R.layout.comment_list_pop, null, false);
         commentListPopWindow = new PopupWindow(PhotosActivity.this);
         commentListPopWindow.setContentView(view);
@@ -450,9 +480,71 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
         commentListPopWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         commentListPopWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
         comList = (ListView) view.findViewById(R.id.listView);
+        comList.setAdapter(commentAdapter);
         comRecyclerView = (RecyclerView) view.findViewById(R.id.com_RecyclerView);
+        comRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
+
         TextView com = (TextView) view.findViewById(R.id.com_comment);
         com.setOnClickListener(this);
+
+        //请求最近关注的
+
+        OkHttpUtils.get().url(Constant.GETFOLLOW)
+                .addHeader("Authorization","Bearer "+token)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        FollowingBean followingBean = JSON.parseObject(response, FollowingBean.class);
+                        int status = followingBean.getStatus();
+                        if(status==200){
+
+                            List<FollowingBean.ResultBean> result = followingBean.getResult();
+                            comRecyclerView.setAdapter(new CommenrRcyAdapter(PhotosActivity.this,result));
+
+
+                        }
+                    }
+                });
+
+
+
+
+
+
+
+         //请求评论列表
+        OkHttpUtils.get().url(Constant.GETCOMMENTS+gid).build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        CommentBean commentBean = JSON.parseObject(response, CommentBean.class);
+                       if(commentBean.getStatus()==200) {
+
+                           comments = commentBean.getResult();
+                           if(comments!=null){
+                               commentAdapter.addData(comments);
+                               commentAdapter.notifyDataSetChanged();
+                           }else{
+                               comments=new ArrayList<CommentBean.ResultBean>();
+                           }
+
+                       }
+                    }
+                });
+
+
+        commentListPopWindow.showAsDropDown(topView);
 
 
     }
@@ -474,8 +566,11 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (commentContent.getText().toString().trim().length() > 4) {
-                    //评论成功
+                String text = commentContent.getText().toString();
+
+                if (text.toString().trim().length() > 4) {
+                    //请求接口发送评论
+                    postComment(text);
 
                 } else {
 
@@ -484,6 +579,48 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
+
+    }
+
+    private void postComment(String text) {
+        String token  = (String) SPUtils.get(this, MyApplication.TOKEN, "");
+        //请求评论列表
+        OkHttpUtils.post().url(Constant.POSTCOMMENTS+gid)
+                .addHeader("Authorization","Bearer "+token)
+                .addParams("text",text)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Toast.makeText(PhotosActivity.this, "评论失败，请稍后再试", Toast.LENGTH_SHORT).show();
+                        commentPopWindow.dismiss();
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            int status = jsonObject.optInt("status");
+                            if (status == 200) {
+
+
+                                //评论成功
+                                CommentBean.ResultBean resultBean = new CommentBean.ResultBean();
+                                resultBean.setAvatar(avatar);
+                                resultBean.setNickname(nickname);
+                                resultBean.setComment(text);
+                                comments.add(0, resultBean);
+                                commentAdapter.notifyDataSetChanged();
+                                commentPopWindow.dismiss();
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+    });
 
     }
 
