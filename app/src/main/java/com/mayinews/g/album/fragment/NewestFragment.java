@@ -47,6 +47,8 @@ public class NewestFragment extends Fragment {
     private LRecyclerViewAdapter mLRecyclerViewAdapter;
     private String id;
      List<HomeReBean.ResultBean> data;
+    private String aid; //艺人id
+
     public NewestFragment(String id) {
         this.id = id;
     }
@@ -81,9 +83,16 @@ public class NewestFragment extends Fragment {
             @Override
             public void onAvaListener(int position) {
                 HomeReBean.ResultBean pData = data.get(position);
-                final String aid = pData.getActor_id();
+                aid = pData.getActor_id();
+                String desc = pData.getDescription();//描述
+                String title = pData.getTitle();//标题
+                String cover = pData.getCover();//封面
+
                 Intent intent = new Intent(getActivity(), ModelDetailActivity.class);
                 intent.putExtra("aid",aid);
+                intent.putExtra("desc",desc);
+                intent.putExtra("title",title);
+                intent.putExtra("cover",cover);
                 startActivity(intent);
             }
 
@@ -125,9 +134,21 @@ public class NewestFragment extends Fragment {
 
                         String status  = (String) SPUtils.get(getActivity(), MyApplication.LOGINSTATUES, "0");
                          if(status.equals("1")){
-                             String id = data.get(position).getId();
+                             String id = data.get(position).getId(); //专辑id
+                             String aid = data.get(position).getActor_id();
                              Intent intent = new Intent(getActivity(), PhotosActivity.class);
-                             intent.putExtra("id",id);
+
+                             String cover = data.get(position).getCover(); //封面
+                             String title = data.get(position).getTitle(); //标题
+                             String gid = data.get(position).getId();
+                             String desc = data.get(position).getDescription();//描述
+                             intent.putExtra("cover",cover);
+                             String avatar = data.get(position).getActor_avatar();
+                             intent.putExtra("avatar",avatar);
+                             intent.putExtra("gid",gid);
+                             intent.putExtra("desc",desc);
+                             intent.putExtra("title",title);
+                             intent.putExtra("aid",aid);
                              startActivity(intent);
                          }else {
 

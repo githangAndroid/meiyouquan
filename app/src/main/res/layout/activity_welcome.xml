@@ -8,7 +8,7 @@
    >
 
     <ImageView
-        android:src="@drawable/welcom_image"
+        android:src="@drawable/begin"
         android:id="@+id/imageview"
         android:scaleType="centerCrop"
         android:layout_width="match_parent"

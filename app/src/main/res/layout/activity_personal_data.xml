@@ -81,7 +81,7 @@
             </LinearLayout>
 
             <LinearLayout
-
+                android:visibility="gone"
                 android:background="@color/devider"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="10dp"
@@ -212,4 +212,7 @@
                 android:layout_height="50dp" />
         </LinearLayout>
     </ScrollView>
+
+
+
 </LinearLayout>

@@ -1,16 +1,25 @@
 apply plugin: 'com.android.application'
 
 android {
-
-
+    signingConfigs {
+        release {
+            keyAlias 'key0'
+            keyPassword '123456'
+            storeFile file('C:/work/mayinews.g.jks')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "com.mayinews"
+        applicationId "com.mayinews.g"
         minSdkVersion 15
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 19
+
+        versionCode 11000
+        versionName "1.0.0"
+
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         jackOptions.enabled = true
     }
@@ -19,13 +28,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            signingConfig signingConfigs.release
+        }
     }
-
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
     }
-
 }
 
 dependencies {
@@ -39,6 +49,7 @@ dependencies {
     // If you want to use the GPU Filters
     compile project(':LRecyclerview_library')
     compile project(':photoview')
+    compile 'com.github.chrisbanes:PhotoView:1.2.6'
     compile files('libs/MobCommons-2017.0914.1125.jar')
     compile files('libs/MobTools-2017.0914.1125.jar')
     compile files('libs/ShareSDK-Alipay-3.1.0.jar')
@@ -87,6 +98,11 @@ dependencies {
     compile files('libs/ShareSDK-YouDao-3.1.0.jar')
     compile files('libs/ShareSDK-Youtube-3.1.0.jar')
     compile project(':PullScrollView')
+    //     检查内存泄漏工具
+
+    //    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+
+    //    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
@@ -102,21 +118,18 @@ dependencies {
     compile 'jp.wasabeef:glide-transformations:2.0.2'
     compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.w4lle.library:NineLayout:1.0.0'
+    compile 'com.github.nanchen2251:CompressHelper:1.0.5'
+    compile 'com.github.yalantis:ucrop:2.2.1'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
-    compile 'com.github.nanchen2251:CompressHelper:1.0.5'
-    compile 'com.github.yalantis:ucrop:2.2.1'
-
-//     检查内存泄漏工具
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-
-
-
-
+    compile project(':library')
 }
+
+
+
+
 
 
 

@@ -44,6 +44,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         version.setOnClickListener(this);
         ivBack.setOnClickListener(this);
         rlOutLogin.setOnClickListener(this);
+        aboutMe.setOnClickListener(this);
     }
 
     @Override
@@ -69,6 +70,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.aboutMe:
+
                 startActivity(new Intent(this,AboutMe.class));
                 break;
         }

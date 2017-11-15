@@ -1,6 +1,10 @@
 package com.mayinews.g;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,32 +17,57 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 import com.mayinews.g.album.fragment.AlbumFragment;
+import com.mayinews.g.app.MyApplication;
 import com.mayinews.g.home.activity.SearchActivity;
 import com.mayinews.g.home.fragment.HomeFragment;
 import com.mayinews.g.home.fragment.RimFragment;
 import com.mayinews.g.user.activity.LoginActivity;
+import com.mayinews.g.user.activity.PersonalDataActivity;
 import com.mayinews.g.user.activity.SettingActivity;
 import com.mayinews.g.user.fragment.UserFragment;
+import com.mayinews.g.utils.Constant;
+import com.mayinews.g.utils.SPUtils;
+import com.mayinews.g.utils.Util;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXImageObject;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static cn.sharesdk.yixin.utils.YXMessage.THUMB_SIZE;
+import static com.mayinews.g.utils.SPUtils.get;
 
 
 public class MainActivity extends AppCompatActivity
@@ -69,8 +98,9 @@ public class MainActivity extends AppCompatActivity
 
 
     private List<Fragment> mFragmetns;
-
+    private static final int THUMB_SIZE = 150;
     private int position;
+
     /**
      * 上次切换的Fragment
      */
@@ -85,12 +115,15 @@ public class MainActivity extends AppCompatActivity
             isExit = false;
         }
     };
+    private PopupWindow SharedPopupWindow;
+    private IWXAPI api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        api = WXAPIFactory.createWXAPI(this, Constant.APPID);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         toolbar.setNavigationIcon(R.mipmap.ic_launcher);
@@ -130,15 +163,54 @@ public class MainActivity extends AppCompatActivity
         View head = navigationView.inflateHeaderView(R.layout.nav_header_main);
         //根据头部有获取里面的view
         ImageView iv = (ImageView) head.findViewById(R.id.imageView);
+        TextView tvNickname = (TextView) head.findViewById(R.id.tv_nickname);
 
-        iv.setOnClickListener(new View.OnClickListener() {
+        head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //打开登录页面
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+
+
+                 if(getLoginState()){
+                     //打开个人资料页面
+                     startActivity(new Intent(MainActivity.this, PersonalDataActivity.class));
+                 }else{
+                     //打开登录页面
+                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                 }
             }
         });
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View view, float v) {
 
+            }
+
+            @Override
+            public void onDrawerOpened(View view) {
+                    Log.e("TAG","open");
+                if(getLoginState()){
+                    String nickname = (String) get(MainActivity.this, MyApplication.USERNICKNAME, "");
+                    String avatar = (String) get(MainActivity.this, MyApplication.USERAVATAR, "");
+                    tvNickname.setText(nickname);
+                    Glide.with(MainActivity.this).load(buildGlideUrl(avatar)).into(iv);
+                }else{
+
+                    tvNickname.setText("立即登录");
+
+                }
+
+            }
+
+            @Override
+            public void onDrawerClosed(View view) {
+                Log.e("TAG","close");
+            }
+
+            @Override
+            public void onDrawerStateChanged(int i) {
+
+            }
+        });
 
         initFragment();
         setListener();
@@ -199,11 +271,25 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.pay) {
-            Toast.makeText(MainActivity.this, "充值", Toast.LENGTH_SHORT).show();
+            if(getLoginState()){
+                Toast.makeText(MainActivity.this, "充值", Toast.LENGTH_SHORT).show();
+            }else{
+                startActivity(new Intent(this,LoginActivity.class));
+            }
+
         } else if (id == R.id.haved) {
-            Toast.makeText(MainActivity.this, "已购买", Toast.LENGTH_SHORT).show();
+            if(getLoginState()){
+                Toast.makeText(MainActivity.this, "已购买的", Toast.LENGTH_SHORT).show();
+            }else{
+
+                startActivity(new Intent(this,LoginActivity.class));
+            }
         } else if (id == R.id.share) {
-            Toast.makeText(MainActivity.this, "分享", Toast.LENGTH_SHORT).show();
+            if(getLoginState()){
+                showSharedPop();
+            }else{
+                startActivity(new Intent(this,LoginActivity.class));
+            }
         } else if (id == R.id.setting) {
             startActivity(new Intent(this, SettingActivity.class));
         }
@@ -327,6 +413,120 @@ public class MainActivity extends AppCompatActivity
             finish();
             System.exit(0);
         }
+    }
+
+    private GlideUrl buildGlideUrl(String url) {
+        if (TextUtils.isEmpty(url)) {
+            return null;
+        } else {
+            return new GlideUrl(url, new LazyHeaders.Builder().addHeader("Referer", "http://m.mayinews.com").build());
+        }
+    }
+
+
+    public boolean getLoginState(){
+
+        String state = (String) SPUtils.get(MainActivity.this, MyApplication.LOGINSTATUES, "0");
+         if(state.equals("1")){
+             return  true;
+         }
+
+
+         return false;
+
+    }
+    public void   showSharedPop(){
+        View view =  LayoutInflater.from(this).inflate(R.layout.shared_dialog,null);
+        View parent =  LayoutInflater.from(this).inflate(R.layout.act_main,null);
+        SharedPopupWindow = new PopupWindow(view,ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+
+
+        LinearLayout llWx = (LinearLayout) view.findViewById(R.id.ll_wx);//微信好友
+        LinearLayout llPengyou = (LinearLayout) view.findViewById(R.id.ll_pengyou);//微信朋友圈
+        llWx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sharePicture("haoyou");
+            }
+        });
+        llPengyou.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sharePicture("pengyouquan");
+            }
+        });
+
+        SharedPopupWindow.setOutsideTouchable(true);
+        SharedPopupWindow.setFocusable(true);
+        //让pop可以点击外面消失掉
+        SharedPopupWindow.setBackgroundDrawable(new ColorDrawable(0));
+        SharedPopupWindow.showAtLocation(parent, Gravity.BOTTOM,0,0);
+
+        SharedPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1);
+            }
+        });
+        backgroundAlpha(0.5f);
+    }
+
+    //分享图片
+    private void sharePicture(String type) {
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.shared);
+        byte[] bytes = bitmap2Bytes(bitmap, 30);
+        Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        WXImageObject imgObj = new WXImageObject(bmp);
+
+
+        WXMediaMessage msg = new WXMediaMessage();
+        msg.mediaObject = imgObj;
+        Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 80, THUMB_SIZE, true);
+        bmp.recycle();
+        msg.thumbData = Util.bmpToByteArray(thumbBmp, true);
+        //构造一个req
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = buildTransaction("img2");
+        req.message = msg;
+        if(type.equals("haoyou")){
+            req.scene = SendMessageToWX.Req.WXSceneSession;
+        }else if(type.equals("pengyouquan")){
+            req.scene = SendMessageToWX.Req.WXSceneTimeline;
+        }
+
+        api.sendReq(req);
+        //dialog消失
+        SharedPopupWindow.dismiss();
+        backgroundAlpha(1);
+//        finish();
+
+
+    }
+    private String buildTransaction(final String type) {
+        return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
+    }
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getWindow().setAttributes(lp);
+    }
+
+    /**
+     * Bitmap转换成byte[]并且进行压缩,压缩到不大于maxkb
+     * @param bitmap
+     * @param
+     * @return
+     */
+    public static byte[] bitmap2Bytes(Bitmap bitmap, int maxkb) {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
+        int options = 100;
+        while (output.toByteArray().length > maxkb&& options != 10) {
+            output.reset(); //清空output
+            bitmap.compress(Bitmap.CompressFormat.JPEG, options, output);//这里压缩options%，把压缩后的数据存放到output中
+            options -= 10;
+        }
+        return output.toByteArray();
     }
 
 

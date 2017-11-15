@@ -72,9 +72,9 @@ public class VRcAdapter extends RecyclerView.Adapter<VRcAdapter.MyViewHolder> {
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         Log.i("TAG","onBindViewHolder");
         HomeReBean.ResultBean dataBean = datas.get(position);
-        float width  = (getScreenWidth(context)-DisplayUtil.dp2px(context,15))/2;
+        float width  = (getScreenWidth(context)-DisplayUtil.dp2px(context,4))/2;
         ViewGroup.LayoutParams layoutParams = holder.item_iv.getLayoutParams();
-        layoutParams.height=(int)(width*16/9);
+        layoutParams.height=(int)(width*3/2);
         holder.item_iv.setLayoutParams(layoutParams);
         Log.e("TAG","item宽度"+width);
         Log.e("TAG","item高度"+(int)(width*16/9));

@@ -66,6 +66,7 @@ import okhttp3.Call;
 
 import static android.R.attr.data;
 import static cn.sharesdk.yixin.utils.YXMessage.MessageType.FILE;
+import static com.mayinews.g.R.id.avatar;
 
 
 public class PersonalDataActivity extends AppCompatActivity {
@@ -89,6 +90,7 @@ public class PersonalDataActivity extends AppCompatActivity {
     EditText etAddress;
     @BindView(R.id.btn_finish)
     Button btnFinish;
+
     AlertDialog dialog;//选择图像的alertDialog
 
     File outputImage;
@@ -102,14 +104,16 @@ public class PersonalDataActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         title.setText("我的");
-        File file = new File(getExternalCacheDir(), "head.jpg");
 
 
-        boolean exists = file.exists();
-        Log.e("TAG", "exists===" + exists);
-        if (exists) {
-            displayImage(file.getAbsolutePath());
-        }
+//        File file = new File(getExternalCacheDir(), "head.jpg");
+//
+//
+//        boolean exists = file.exists();
+//        Log.e("TAG", "exists===" + exists);
+//        if (exists) {
+//            displayImage(file.getAbsolutePath());
+//        }
 
 
 
@@ -126,16 +130,19 @@ public class PersonalDataActivity extends AppCompatActivity {
         }else if(sex.equals("1")){
             tvSex.setText("女");
         }
-        Log.e("TAG","姓名"+nickname+"   性别"+sex);
+
 
         String avatar = (String) SPUtils.get(this, MyApplication.USERAVATAR, "");
-        Glide.with(this).load(buildGlideUrl(avatar)).into(headView);
+        Log.e("TAG","姓名"+nickname+"   头像"+avatar);
+        if(avatar!=null && !avatar.equals("")){
+            Glide.with(this).load(buildGlideUrl(avatar)).into(headView);
+        }
 
 
     }
 
 
-    @OnClick({R.id.iv_back, R.id.headView, R.id.tv_sex, R.id.btn_finish})
+    @OnClick({R.id.iv_back, R.id.headView, R.id.tv_sex, R.id.btn_finish,R.id.clear})
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -157,7 +164,7 @@ public class PersonalDataActivity extends AppCompatActivity {
                 if (etNickname.getText().toString().isEmpty()) {
                     Toast.makeText(this, "昵称不能为空", Toast.LENGTH_SHORT).show();
                 } else {
-                    //保存
+                    //保存昵称
 
 
                     OkHttpUtils.post().url(Constant.SETNICKNAME).addHeader("authorization", "Bearer " + token)
@@ -165,18 +172,30 @@ public class PersonalDataActivity extends AppCompatActivity {
                             .build().execute(new StringCallback() {
                         @Override
                         public void onError(Call call, Exception e, int id) {
+
+                            Log.e("TAG","昵称报错出错"+e.getMessage());
+                            Toast.makeText(PersonalDataActivity.this, "设置失败请稍后再试", Toast.LENGTH_SHORT).show();
+
                         }
 
                         @Override
                         public void onResponse(String response, int id) {
 
-
+                            Log.e("TAG","保存昵称成功resonse"+response+"    outFile="+outputImage);
+                            //保存信息
+                            SPUtils.put(PersonalDataActivity.this,MyApplication.USERNICKNAME,etNickname.getText().toString());
                             //执行保存头像功能
-                           saveHeanIcon();
+                            saveHeanIcon();
 
                         }
                     });
                 }
+
+                break;
+
+               case R.id.clear:
+
+                    etNickname.setText("");
 
                 break;
 
@@ -198,11 +217,15 @@ public class PersonalDataActivity extends AppCompatActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                           Log.e("TAG","错误="+e.getMessage());
+                           Log.e("TAG","保存头像错误="+e.getMessage());
+                        Toast.makeText(PersonalDataActivity.this, "设置失败请稍后再试", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
+
+
+                        Log.e("TAG","保存成功后的头像response="+response);
                         PostAvaterResultBean resultBean = JSON.parseObject(response, PostAvaterResultBean.class);
                         if(resultBean.getStatus()==200){
 
@@ -210,13 +233,18 @@ public class PersonalDataActivity extends AppCompatActivity {
                             String path = result.getPath();
                             //保存更新后的头像地址
                             SPUtils.put(PersonalDataActivity.this,MyApplication.USERAVATAR,path);
-                            Toast.makeText(PersonalDataActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PersonalDataActivity.this, "信息保存成功", Toast.LENGTH_SHORT).show();
+                            finish();
                         }else{
                             Toast.makeText(PersonalDataActivity.this, "设置失败请稍后再试", Toast.LENGTH_SHORT).show();
                         }
 
                     }
                 });
+        }else{
+
+            Toast.makeText(PersonalDataActivity.this, "信息保存成功", Toast.LENGTH_SHORT).show();
+            finish();
         }
 
     }
@@ -304,9 +332,9 @@ public class PersonalDataActivity extends AppCompatActivity {
 
 
                 //打开相机
-                CreateFile();
+//                CreateFile();
                 if (Build.VERSION.SDK_INT >= 24) {
-                    imageUrl = FileProvider.getUriForFile(PersonalDataActivity.this, "com.mayines.g", file);
+                    imageUrl = FileProvider.getUriForFile(PersonalDataActivity.this, "com.mayinews.g", file);
 
                 } else {
                     imageUrl = Uri.fromFile(file);
@@ -451,13 +479,17 @@ public class PersonalDataActivity extends AppCompatActivity {
         displayImage(path);
     }
 
-    private void displayImage(String imagePath) {
-
-
+    private void displayImage (String imagePath) {
+         Log.e("tag","display"+imagePath);
         if (imagePath != null) {
 //            outputImage = new File(imagePath);   //保存相册的地址
+
+
+//            File newFile = CompressHelper.getDefault(getApplicationContext()).compressToFile(outputImage);
             Bitmap testbitmap = BitmapFactory.decodeFile(imagePath);//解析为bitmap
-            headView.setImageBitmap(testbitmap);
+            Log.e("tag","testbitmap"+testbitmap);
+            Glide.with(this).load(imagePath).into(headView);
+//            headView.setImageBitmap(testbitmap);
         } else {
             Toast.makeText(this, "failed to get image", Toast.LENGTH_SHORT).show();
         }
@@ -518,8 +550,10 @@ public class PersonalDataActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(url)) {
             return null;
         } else {
-            return new GlideUrl(url, new LazyHeaders.Builder().addHeader("Referer", "http://m.mayinews.com").build());
+             return new GlideUrl(url, new LazyHeaders.Builder().addHeader("Referer", "http://m.mayinews.com").build());
         }
+
+
 
     }
 

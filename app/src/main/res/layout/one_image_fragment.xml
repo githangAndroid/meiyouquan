@@ -20,12 +20,13 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <ImageView
+        <com.mayinews.g.view.ResizableImageView
             android:id="@+id/image1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:scaleType="centerCrop" />
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY" />
 
 
     </LinearLayout>

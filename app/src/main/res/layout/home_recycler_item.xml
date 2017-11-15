@@ -8,14 +8,16 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
   <ImageView
 
-      android:scaleType="centerCrop"
       android:id="@+id/item_iv"
-
       android:layout_width="match_parent"
-      android:layout_height="260dp" />
-    <TextView
+
+      android:layout_height="260dp"
+      android:scaleType="centerCrop" />
+
+  <TextView
         android:paddingBottom="4dp"
         android:paddingTop="4dp"
         android:background="@color/white"

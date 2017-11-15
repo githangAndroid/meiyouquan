@@ -10,7 +10,9 @@
 
 
     </style>
-
+    <style name="mycheckbox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/choose_selector</item>
+    </style>
 
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light">
         <item name="windowActionBar">false</item>

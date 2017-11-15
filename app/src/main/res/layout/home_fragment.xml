@@ -252,8 +252,7 @@ android:orientation="vertical">
 
 
             <com.github.jdsjlzx.recyclerview.LRecyclerView
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
+
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

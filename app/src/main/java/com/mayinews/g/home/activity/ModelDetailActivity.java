@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
+import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
@@ -28,6 +29,7 @@ import com.mayinews.g.home.adapter.ModelDetailAdapter;
 import com.mayinews.g.home.bean.HomeReBean;
 import com.mayinews.g.home.bean.ModelDetailBean1;
 import com.mayinews.g.home.bean.ModelDetailBean2;
+import com.mayinews.g.user.activity.LoginActivity;
 import com.mayinews.g.utils.Constant;
 import com.mayinews.g.utils.SPUtils;
 import com.mayinews.g.view.FullyLinearLayoutManager;
@@ -47,6 +49,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static android.R.attr.data;
+import static android.R.attr.paddingStart;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 /**
@@ -54,7 +57,7 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
  */
 public class ModelDetailActivity extends AppCompatActivity{
 
-    private PullScrollView mScrollView;
+//    private PullScrollView mScrollView;
 //    private ImageView topHeadView;
 
 
@@ -92,7 +95,11 @@ public class ModelDetailActivity extends AppCompatActivity{
         setContentView(R.layout.activity_model_detail);
         ButterKnife.bind(this);
 
-        initView();
+//        initView();
+
+
+
+
         headView = LayoutInflater.from(this).inflate(R.layout.recycler_head, null, false);
         username= (TextView) headView.findViewById(R.id.username);
         city= (TextView) headView.findViewById(R.id.city);
@@ -100,6 +107,7 @@ public class ModelDetailActivity extends AppCompatActivity{
         height= (TextView) headView.findViewById(R.id.tv_height);
         userAvatar= (CircleImageView) headView.findViewById(R.id.user_avatar);
         followCount= (TextView) headView.findViewById(R.id.followCount);
+        mHeadImg = (ImageView) findViewById(R.id.background_img);
         attention= (TextView) headView.findViewById(R.id.attention);
 //        rootView.setVisibility(View.GONE);
         iv_back= (ImageView) findViewById(R.id.back);
@@ -115,7 +123,17 @@ public class ModelDetailActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
 
-                  AttenAva();
+
+                  String state = (String) SPUtils.get(ModelDetailActivity.this,MyApplication.LOGINSTATUES,"0");
+                  if(state.equals("1")){
+                      AttenAva();
+                  }else{
+
+                      startActivity(new Intent(ModelDetailActivity.this, LoginActivity.class));
+
+
+                  }
+
 
 
 
@@ -137,17 +155,53 @@ public class ModelDetailActivity extends AppCompatActivity{
 
           RequestInfoData(aid);// 请求页面上半部分的信息数据
 //        RequestLreData(); //请求下面的数据
+
+            //判断是否关注
+//            isAtten();
+    }
+
+    private void isAtten() {
+
+        OkHttpUtils.get().url("http://g.mayinews.com/api/follow/"+aid).addHeader("Authorization","Bearer "+token)
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    int status = jsonObject.optInt("status");
+                    if(status==200){
+                        JSONObject result = jsonObject.optJSONObject("result");
+                        int del = result.optInt("del");
+                        if(del==1){
+
+
+                        }else{
+
+
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
     }
 
 
-
-    protected void initView() {
-        mScrollView = (PullScrollView) findViewById(com.markmao.pullscrollview.R.id.scroll_view);
-        mHeadImg = (ImageView) findViewById(com.markmao.pullscrollview.R.id.background_img);
-        mScrollView.setHeader(mHeadImg);
-
-
-    }
+    //    protected void initView() {
+//        mScrollView = (PullScrollView) findViewById(com.markmao.pullscrollview.R.id.scroll_view);
+//        mHeadImg = (ImageView) findViewById(com.markmao.pullscrollview.R.id.background_img);
+//        mScrollView.setHeader(mHeadImg);
+//
+//
+//    }
     private void setUpInfo(HomeReBean.ResultBean data) {
         Glide.with(this).load(buildGlideUrl("http://static.mayinews.com"+ data.getActor_avatar())).into(userAvatar);
         username.setText(data.getActor());
@@ -159,7 +213,7 @@ public class ModelDetailActivity extends AppCompatActivity{
         city.setText(data.getActor_city());
         threeDimensional.setText(data.getActor_size());
         height.setText(data.getActor_height());
-        followCount.setText("30021人已关注她");
+        followCount.setText("0人已关注她");
      
 
     }
@@ -183,12 +237,16 @@ public class ModelDetailActivity extends AppCompatActivity{
                     ModelDetailBean2 bean = JSON.parseObject(response, ModelDetailBean2.class);
                     if( bean.getStatus()==200){
                         List<ModelDetailBean2.ResultBean> result = bean.getResult();
+
                          detailAdapter.addData(data,result);
+
                          detailAdapter.notifyDataSetChanged();
+
+                        Glide.with(ModelDetailActivity.this).load(buildGlideUrl("http://static.mayinews.com"+ result.get(0).getCover())).into(mHeadImg);
                          mLRecyclerViewAdapter.notifyDataSetChanged();
 //                       rootView.setVisibility(View.VISIBLE);
                          lRecyclerView.setBackgroundColor(getResources().getColor(R.color.transparent));
-
+//                         Glide.with(ModelDetailActivity.this).load(buildGlideUrl("http://static.mayinews.com"+ result.get(0).getCover())).into(mHeadImg);
                     }
 
 
@@ -226,16 +284,16 @@ public class ModelDetailActivity extends AppCompatActivity{
                     Glide.with(ModelDetailActivity.this).load(buildGlideUrl("http://static.mayinews.com"+ result.getAvatar())).into(userAvatar);
                     username.setText(result.getNickname());  //还有个realName
                     //设置背景
-//        Glide.with(this).load(buildGlideUrl("http://static.mayinews.com"+ data.getActor_image())).into(mHeadImg);
+
 //                    Glide.with(ModelDetailActivity.this).load(buildGlideUrl("http://fns-userimg-public.oss-cn-hangzhou.aliyuncs.com/150417333338505ef39.jpg")).into(mHeadImg);
-                    Glide.with(ModelDetailActivity.this).load(buildGlideUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1508390658035&di=74c13488c80ed535a57b50915b305723&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D3884961763%2C365552436%26fm%3D214%26gp%3D0.jpg")).into(mHeadImg);
+//                    Glide.with(ModelDetailActivity.this).load(buildGlideUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1508390658035&di=74c13488c80ed535a57b50915b305723&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D3884961763%2C365552436%26fm%3D214%26gp%3D0.jpg")).into(mHeadImg);
                     //设置城市，三维，身高
 
                     Log.e("TAG","城市="+result.getCity()+"  三维="+ result.getSize()+"  +高="+result.getHeight());
                     city.setText(result.getCity());
                     threeDimensional.setText(result.getSize());
                     height.setText(result.getHeight());
-                    followCount.setText("30021人已关注她");
+                    followCount.setText("0人已关注她");
                     lRecyclerView.setBackgroundColor(getResources().getColor(R.color.transparent));
                     RequestLreData(result);
 
@@ -277,6 +335,8 @@ public class ModelDetailActivity extends AppCompatActivity{
             }
         });
 
+
+
     }
 
 
@@ -307,16 +367,17 @@ public class ModelDetailActivity extends AppCompatActivity{
 
     //关注作者和取消关注
     private void AttenAva() {
-        if(token==null && !token.equals("")){
-            SPUtils.get(this, MyApplication.TOKEN,"");
-        }
+
+
+        token = (String) SPUtils.get(this, MyApplication.TOKEN,""); //获取token
+
 
         OkHttpUtils.post().url(Constant.POSTAVATAR).addHeader("Authorization","Bearer "+token)
                 .addParams("follow",aid).build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-
+                          Toast.makeText(ModelDetailActivity.this,"关注失败，请稍后再试",Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -330,7 +391,7 @@ public class ModelDetailActivity extends AppCompatActivity{
                                 int del = result.optInt("del");
                                 if(del==1){
 
-                                        attention.setText("取消成功");
+                                        attention.setText("取消关注");
                                         Toast.makeText(ModelDetailActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
 
 
@@ -340,9 +401,9 @@ public class ModelDetailActivity extends AppCompatActivity{
                                     Toast.makeText(ModelDetailActivity.this, "取消成功", Toast.LENGTH_SHORT).show();
                                 }
 
-                            }else{
-
-
+                            }else if(status==401){
+                               //去登录页面
+                                startActivity(new Intent(ModelDetailActivity.this, LoginActivity.class));
                             }
 
                         } catch (JSONException e) {

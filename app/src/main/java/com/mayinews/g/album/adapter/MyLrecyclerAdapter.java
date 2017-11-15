@@ -67,7 +67,7 @@ public class MyLrecyclerAdapter extends RecyclerView.Adapter<MyLrecyclerAdapter.
 
         float width  = (getScreenWidth(context)- DisplayUtil.dp2px(context,15))/2;
         ViewGroup.LayoutParams layoutParams = holder.item_iv.getLayoutParams();
-        layoutParams.height=(int)(width*16/9);
+        layoutParams.height=(int)(width*3/2);
         holder.item_iv.setLayoutParams(layoutParams);
         Log.e("TAG","item宽度"+width);
         Log.e("TAG","item高度"+(int)(width*16/9));
@@ -113,7 +113,6 @@ public class MyLrecyclerAdapter extends RecyclerView.Adapter<MyLrecyclerAdapter.
 //            });
         }
     }
-
     private GlideUrl buildGlideUrl(String url) {
         if (TextUtils.isEmpty(url)) {
             return null;

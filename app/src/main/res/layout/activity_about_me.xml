@@ -4,10 +4,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   >
-    <include android:id="@+id/topbar" layout="@layout/topbar"/>
-    <WebView
-        android:id="@+id/webView"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/topbar"
+        layout="@layout/topbar" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></WebView>
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:background="@drawable/aboutme_backgroud"
+            android:padding="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+
+                android:text="主要功能和特点特点"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text=" 一款为corserh和摄影师准备的软件，为摄影爱好着提供分享创意摄影，交流摄影知识及摄影理论的开放平台;坚持用兴趣社交，通过创作、分享图片打造有品质的时尚生活社区;个人分享空间，半私密社交，通过图片表达情绪和生活状态;专辑图片分类浏览，横向滑动主页面，可在不同专区中切换;按照每个专辑的订阅量进行排行功能。"
+                android:textSize="15sp">
+
+            </TextView>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="100dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+
+                android:text="Copyright © 2013-2017"
+                android:textColor="@color/blac70" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="杭州朋游网络科技有限公司"
+                android:textColor="@color/blac70" />
+        </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>
+
+
+

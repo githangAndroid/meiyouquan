@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +16,10 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.mayinews.g.R;
 import com.mayinews.g.app.MyApplication;
-import com.mayinews.g.app.bean.UserInfoBean;
+import com.mayinews.g.user.bean.UserInfoBean;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -80,11 +82,14 @@ LoginActivity extends AppCompatActivity {
         }
 
     };
-        @Override
+    private IWXAPI api;
+
+    @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_login);
             ButterKnife.bind(this);
+             api = WXAPIFactory.createWXAPI(this, Constant.APPID, false);
         }
 
 
@@ -100,6 +105,9 @@ LoginActivity extends AppCompatActivity {
 
                 case R.id.WeChat:
                     //微信登录
+                    sendAuthRequest();
+
+
                     break;
                 case R.id.tv_getcode: //获取验证码
                     getVerCode();
@@ -174,7 +182,7 @@ LoginActivity extends AppCompatActivity {
                                                     //保存登录成功的字段
                                                     SPUtils.put(LoginActivity.this, MyApplication.LOGINSTATUES, "1");
                                                     SaveUserInfo();
-
+//                                                    SaveAtten(); //获取当前id所关注的并保存
 
                                                 } else {
 
@@ -215,10 +223,27 @@ LoginActivity extends AppCompatActivity {
 
         }
 
-        private void SaveUserInfo() {
+    private void sendAuthRequest() {
 
 
-            //如果死登录状态状态，就去获取用户的信息
+
+        final SendAuth.Req req = new SendAuth.Req();
+        req.scope = "snsapi_userinfo";
+        req.state = "none";
+        api.sendReq(req);
+        finish();
+
+
+
+
+
+
+    }
+
+    private void SaveUserInfo() {
+
+
+            //如果登录状态状态，就去获取用户的信息
             String token = (String) SPUtils.get(this, MyApplication.TOKEN, "");
             Log.e("TAG", "token222" + token);
             if (token != null && !token.equals("")) {
@@ -237,20 +262,16 @@ LoginActivity extends AppCompatActivity {
                         Log.e("TAG", "status" + status);
                         if (status == 200) {
                             UserInfoBean.ResultBean result = userInfoBean.getResult();
-                            String uid = result.getUid();
                             String avatar = result.getAvatar();
                             String nickname = result.getNickname();
-                            String sex = result.getSex();
 //                        Object desc = result.getDesc();
 
                             //保存信息
 
-                            SPUtils.put(LoginActivity.this, MyApplication.USERID, uid);
                             SPUtils.put(LoginActivity.this, MyApplication.USERAVATAR, avatar);
                             SPUtils.put(LoginActivity.this, MyApplication.USERNICKNAME, nickname);
-                            SPUtils.put(LoginActivity.this, MyApplication.USERSEX, sex);
                             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                            Log.e("TAG", "uid" + uid + " avatar" + avatar + " nickname" + nickname + " sex" + sex);
+                            Log.e("TAG", "uid" + id + " avatar" + avatar + " nickname" + nickname );
                             finish();
                         }
 

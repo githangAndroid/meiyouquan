@@ -18,5 +18,6 @@
     <color name="devider">#F5F4F5</color>
     <color name="pressed_false_green">#78DEAB</color>
     <color name="pressed_true_green">#4eA45D</color> <!--亮灰-->
-
+    <color name="halftransparent">#50000000</color>
+    <color name="divider">#F0F0F0</color>
 </resources>

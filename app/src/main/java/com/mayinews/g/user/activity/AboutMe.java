@@ -11,6 +11,7 @@ import com.mayinews.g.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class AboutMe extends AppCompatActivity {
 
@@ -25,9 +26,10 @@ public class AboutMe extends AppCompatActivity {
         setContentView(R.layout.activity_about_me);
         ButterKnife.bind(this);
         title.setText("关于我们");
+
     }
 
-
+    @OnClick(R.id.iv_back)
     public void OnClick(View v){
         switch (v.getId()) {
             case  R.id.iv_back:

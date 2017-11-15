@@ -2,27 +2,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:paddingLeft="6dp"
     android:paddingRight="6dp"
+    android:background="@color/white"
     android:gravity="center_horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-     <ProgressBar
+     <TextView
          android:layout_marginTop="20dp"
-         android:layout_width="30dp"
-         android:layout_height="30dp" />
+         android:textSize="22sp"
+         android:text="软件更新"
+
+         android:textColor="@color/appcolor"
+
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content" />
 
     <TextView
         android:text="正在升级最新版,请稍后..."
+        android:textSize="18sp"
+        android:textColor="@color/black"
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <ProgressBar
-        android:id="@+id/pb_download"
-        android:layout_marginBottom="6dp"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="?android:attr/progressBarStyleHorizontal"/>
+        <ProgressBar
+            android:id="@+id/pb_download"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyleHorizontal"/>
+
+
+
 </LinearLayout>

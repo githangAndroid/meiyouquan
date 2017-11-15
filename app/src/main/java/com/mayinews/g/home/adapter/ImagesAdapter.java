@@ -15,29 +15,30 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.github.chrisbanes.photoview.PhotoView;
 
 import java.util.List;
+
+import static com.mayinews.g.R.id.imageView;
 
 /**
  * Created by Administrator on 2017/9/14 0014.
  * 写真的图片Viewpager的适配器
  */
 
-public class ImagesAdapter extends PagerAdapter{
+public class ImagesAdapter extends PagerAdapter {
     private Context context;
     private List<String> imageUrls;
     ImageOnClickListener listener;
-    public interface ImageOnClickListener{
+
+    public interface ImageOnClickListener {
         public void onClick(int position);
     }
 
-    public  void setImageListener(ImageOnClickListener listener){
-        this.listener=listener;
+    public void setImageListener(ImageOnClickListener listener) {
+        this.listener = listener;
     }
 
     public ImagesAdapter(Context context, List<String> imageUrls) {
@@ -52,20 +53,23 @@ public class ImagesAdapter extends PagerAdapter{
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view==object;
+        return view == object;
     }
 
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
 //        ImageView imageView = new ZoomImageView(context);
-          PhotoView imageView = new PhotoView(context);
-//        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//        PhotoView imageView = new PhotoView(context);
+        ImageView imageView = new ImageView(context);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 //        imageView.setAdjustViewBounds(true);
 
 
-        Log.e("TAG","PA"+imageUrls.get(position));
-
+        Log.e("TAG", "PA"+"image宽"+imageView.getWidth()+"image高"+imageView.getHeight());
+//        Glide.with(context).load(buildGlideUrl("http://static.mayinews.com" + imageUrls.get(position)))
+//
+//                .into(imageView);
 
         Glide.with(context).load(buildGlideUrl("http://static.mayinews.com"+imageUrls.get(position)))
                 .asBitmap()
@@ -82,26 +86,23 @@ public class ImagesAdapter extends PagerAdapter{
                             Matrix matrix = new Matrix();
                             matrix.postRotate(90);
                             Bitmap bitmap = Bitmap.createBitmap(resource, 0, 0, resource.getWidth(), resource.getHeight(), matrix, true);
-                            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                            imageView.setAdjustViewBounds(true );
 
                             imageView.setImageBitmap(bitmap);
 
                         }else{
 
                             //正常显示图片
-                            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                            imageView.setAdjustViewBounds(false );
+//                            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                            imageView.setAdjustViewBounds(true );
                             imageView.setImageBitmap(resource);
                         }
                     }
                 });
+        Log.e("TAG", "listener=" + listener);
+        if (listener != null) {
 
-
-
-
-        Log.e("TAG","listener="+listener);
-        if(listener!=null){
-            
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -112,8 +113,8 @@ public class ImagesAdapter extends PagerAdapter{
 
         }
 
-            container.addView(imageView);
-                return imageView;
+        container.addView(imageView);
+        return imageView;
     }
 
     @Override
@@ -121,6 +122,7 @@ public class ImagesAdapter extends PagerAdapter{
 
         container.removeView((View) object);
     }
+
     private GlideUrl buildGlideUrl(String url) {
         if (TextUtils.isEmpty(url)) {
             return null;
@@ -136,8 +138,8 @@ public class ImagesAdapter extends PagerAdapter{
      * @param bgAlpha
      */
     public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = ((Activity)context).getWindow().getAttributes();
+        WindowManager.LayoutParams lp = ((Activity) context).getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
-        ((Activity)context).getWindow().setAttributes(lp);
+        ((Activity) context).getWindow().setAttributes(lp);
     }
 }

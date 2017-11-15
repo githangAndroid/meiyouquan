@@ -16,7 +16,6 @@ import com.alibaba.fastjson.JSON;
 import com.gxz.PagerSlidingTabStrip;
 import com.mayinews.g.R;
 import com.mayinews.g.album.adapter.MyAlbumItemAdapter;
-import com.mayinews.g.app.MyApplication;
 import com.mayinews.g.home.bean.AppTags;
 import com.mayinews.g.utils.Constant;
 import com.zhy.http.okhttp.OkHttpUtils;

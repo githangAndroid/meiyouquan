@@ -1,23 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.mayinews.view.DropZoomScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:id="@+id/main"
+    android:background="#F0F0F0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mayinews.user.activity.PayActivity">
+    android:orientation="vertical"
+    >
+    <include android:id="@+id/topbar" layout="@layout/topbar"/>
 
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-           <ImageView
-               android:layout_gravity="center"
-               android:background="@drawable/banner1"
-               android:layout_width="match_parent"
-               android:layout_height="160dp"
-               />
-         </LinearLayout>
+            android:layout_height="match_parent">
 
 
-</com.mayinews.view.DropZoomScrollView>
+
+             <LinearLayout
+
+                 android:orientation="vertical"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="50dp"
+                     android:layout_marginTop="1dp"
+                     android:background="@color/white"
+                     android:orientation="horizontal">
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="match_parent"
+                         android:layout_marginLeft="8dp"
+                         android:textColor="@color/black"
+                         android:gravity="center_vertical"
+                         android:textSize="12sp"
+                         android:text="账户余额:"/>
+
+                     <TextView
+                         android:id="@+id/tv_balance"
+                         android:layout_width="wrap_content"
+                         android:layout_height="match_parent"
+                         android:layout_marginLeft="10dp"
+                         android:textColor="@color/black"
+                         android:gravity="center_vertical"
+                         android:textSize="12sp"
+                         android:text="0.0元" />
+
+                 </LinearLayout>
+                 <TextView
+                    android:padding="8dp"
+                     android:textColor="@color/black"
+                     android:gravity="center_vertical"
+                     android:textSize="12sp"
+                     android:text="VIP会员"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content" />
+
+                 <com.mayinews.g.view.CustomExpandableListView
+                     android:listSelector="@color/transparent"
+                     android:id="@+id/listView1"
+                     android:childDivider="@android:color/transparent"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content">
+
+                 </com.mayinews.g.view.CustomExpandableListView>
+                 <TextView
+                    android:padding="8dp"
+                     android:textColor="@color/black"
+                     android:gravity="center_vertical"
+                     android:textSize="12sp"
+                     android:text="包月套餐"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content" />
+                 <com.mayinews.g.view.CustomExpandableListView
+                     android:listSelector="@color/transparent"
+                     android:id="@+id/listView2"
+                     android:childDivider="@android:color/transparent"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content">
+
+                 </com.mayinews.g.view.CustomExpandableListView>
+                 <TextView
+                    android:padding="8dp"
+                     android:textColor="@color/black"
+                     android:gravity="center_vertical"
+                     android:textSize="12sp"
+                     android:text="尤币充值"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content" />
+                 <com.mayinews.g.view.MyListView
+                     android:listSelector="@color/transparent"
+                     android:id="@+id/listView3"
+                     android:childDivider="@android:color/transparent"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content">
+
+                 </com.mayinews.g.view.MyListView>
+
+             </LinearLayout>
+
+
+
+
+
+        </ScrollView>
+
+
+
+
+</LinearLayout>

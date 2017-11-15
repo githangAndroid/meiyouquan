@@ -88,16 +88,9 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/comment_img2" />
+                    android:src="@drawable/comment_selector" />
 
-                <TextView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:gravity="right"
-                    android:text="0.2k"
-                    android:textSize="8sp" />
+                />
             </RelativeLayout>
 
             <RelativeLayout
@@ -106,23 +99,16 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/iv_coll"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/collect_img" />
-
-                <TextView
-                    android:id="@+id/tv_coll_count"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:gravity="right"
-                    android:text="0.2k"
-                    android:textSize="8sp" />
+                    android:src="@drawable/coll_selector" />
+               />
             </RelativeLayout>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/rl_zan"
                 android:layout_width="30dp"
                 android:layout_height="match_parent">
@@ -154,17 +140,9 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/shared_img" />
+                    android:src="@drawable/shared_selector" />
 
-                <TextView
-                    android:id="@+id/tv_shared_count"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:gravity="right"
-                    android:text="0.2k"
-                    android:textSize="8sp" />
+               />
 
             </RelativeLayout>
 

@@ -87,7 +87,7 @@
         android:layout_height="50dp">
         <TextView
             android:layout_centerVertical="true"
-            android:text="免费声明"
+            android:text="免责声明"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

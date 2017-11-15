@@ -8,14 +8,15 @@
     android:background="@color/white">
 
 
-       <ImageView
+       <com.mayinews.g.view.ResizableImageView
 
            android:id="@+id/background_img"
            android:layout_width="match_parent"
            android:layout_height="400dp"
-           android:layout_marginTop="-100dp"
+
            android:contentDescription="@null"
-           android:scaleType="centerCrop"
+           android:scaleType="fitXY"
+           android:adjustViewBounds="true"
 
 
            />
@@ -24,13 +25,11 @@
 
 
 
-<com.markmao.pullscrollview.ui.widget.PullScrollView
+<ScrollView
 
     android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:headerHeight="300dp"
-    app:headerVisibleHeight="100dp"
     android:fillViewport="true"
     android:layout_alignParentTop="true"
     android:layout_alignParentLeft="true"
@@ -51,7 +50,7 @@
     </com.github.jdsjlzx.recyclerview.LRecyclerView>
     </RelativeLayout>
 
-</com.markmao.pullscrollview.ui.widget.PullScrollView>
+</ScrollView>
 
     <ImageView
 

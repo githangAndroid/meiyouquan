@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -64,8 +65,12 @@ import okhttp3.Call;
 import com.mayinews.g.utils.DisplayUtil;
 import com.mayinews.g.utils.NetworkUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import static android.os.Build.VERSION_CODES.M;
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
-import static com.mayinews.g.utils.SPUtils.get;
+import static com.mayinews.g.utils.NetworkUtils.isNetworkAvailable;
 
 /**
  * Created by 盖航_ on 2017/8/29.
@@ -96,6 +101,7 @@ public class HomeFragment extends Fragment implements VRcAdapter.OnItemClickLite
     private List<HomeReBean.ResultBean> data;    //每一個圖片的信息
 
     private int ScreenWidth;
+    private int currentVersion;//当前的版本
 
     @Nullable
     @Override
@@ -120,7 +126,7 @@ public class HomeFragment extends Fragment implements VRcAdapter.OnItemClickLite
         }
 
         //判断网络状态
-        boolean networkAvailable = NetworkUtils.isNetworkAvailable(getActivity());
+        boolean networkAvailable = isNetworkAvailable(getActivity());
         if (networkAvailable) {
 
 
@@ -150,94 +156,147 @@ public class HomeFragment extends Fragment implements VRcAdapter.OnItemClickLite
             }
         });
 
+         currentVersion=getVerCode(getActivity());
+         Log.e("TAG","版本66666Version="+currentVersion);
+        if( NetworkUtils.isNetworkAvailable(getActivity())){
 
-         Log.e("TAG","版本Version="+getVerCode(getActivity()));
-
-        //进行版本更新检查
-        /*OkHttpUtils.get().url("").build().buildCall(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
-
-            }
-
-            @Override
-            public void onResponse(String response, int id) {
-                //若是有最新版,请求下载和安装apk
-
-                  //根据字段判断是否强制升级
-
-                    //1.不强制升级
-                        showDialogNoMust();
-
-                    //2.强制升级
-                        showDialogMust()
+            apkUndate();
 
 
-                 //显示Dialog
-//
-                  Dialog dialog = new Dialog(getActivity());
-                  dialog.setContentView(R.layout.updateapp_dialog);
-                  requestDownloadApk();
 
+        }
 
-            }
-        });*/
 
 
         return view;
     }
 
+    private void apkUndate() {
+        //进行版本更新检查
+        OkHttpUtils.get().url("http://g.mayinews.com/api/getversion/client/"+currentVersion).build()
+                .execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                   Log.e("TAG","版本更新error"+e.getMessage());
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                Log.e("TAG","版本更新response   "+response);
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(jsonObject!=null){
+
+                    int current = jsonObject.optInt("current");//得到服务器当前的最新版本
+                    JSONObject apk = jsonObject.optJSONObject("apk");
+                    String apkUrl = apk.optString(current+"");  //apk的下载地址
+
+                    //若是有最新版,请求下载和安装apk
+                    if(currentVersion<current){
+
+                        requestDownloadApk(apkUrl);
+                    }
+                }
+
+
+
+
+            }
+        });
+    }
+
+
     /*
           来下来最新版本的apk
      */
-    private void requestDownloadApk() {
+    private void requestDownloadApk(String apkUrl) {
 
         //判断网络状态
-        boolean status = NetworkUtils.isWifi(getActivity());
-        if(status){
-               //显示下载的Dialog
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.download_dialog, null, false);
-            builder.setView(view);
-            builder.show();
+        if (isNetworkAvailable(getActivity())) {
+            if (NetworkUtils.isWifi(getActivity())) {  //是无线网络直接更新
+                //显示下载的Dialog
+                downloadApk(apkUrl);
+            } else {
+                //是4G提示是否下载
+                //弹出不是wifi状态的dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                View view = LayoutInflater.from(getActivity()).inflate(R.layout.netstatus_dialog, null, false);
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                alertDialog.setContentView(view);
+                TextView cancle = (TextView) view.findViewById(R.id.tv_cancle);
+                TextView sure = (TextView) view.findViewById(R.id.tv_sure);
+                cancle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
 
-        }else{
-
-            //弹出不是wifi状态的dialog
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.netstatus_dialog, null, false);
-            builder.setView(view);
-
+                    }
+                });
+                sure.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                        downloadApk(apkUrl);
+                    }
+                });
+            }
         }
-        OkHttpUtils.get().url("").build().execute(new FileCallBack(Environment.getExternalStorageDirectory().getAbsolutePath(), "meiyouquan.apk") {
+
+
+    }
+
+    private void downloadApk(String apkUrl) {
+        Log.e("TAG","apk地址"+apkUrl);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.download_dialog, null, false);
+        AlertDialog alertDialog = builder.create();
+
+        ProgressBar pb =  (ProgressBar) view.findViewById(R.id.pb_download);
+        alertDialog.show();
+        alertDialog.setCancelable(false);  //点击外部不消失
+        alertDialog.setContentView(view);
+        OkHttpUtils.get().url(apkUrl).
+                addHeader("Referer", "http://m.mayinews.com").
+                build().execute(new FileCallBack(Environment.getExternalStorageDirectory().getAbsolutePath(), "meiyouquan.apk") {
             @Override
             public void onError(Call call, Exception e, int id) {
-
+                Log.e("TAG","下载失败error="+e.getMessage());
+                Toast.makeText(getActivity(), "下载失败", Toast.LENGTH_SHORT).show();
+                alertDialog.dismiss();
             }
 
             @Override
             public void onResponse(File response, int id) {
                 //下载完成后去安装
-
-
+                Log.e("TAG","下载apkResponse"+response);
+                alertDialog.dismiss();
                 Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addCategory(Intent.CATEGORY_DEFAULT);
                 intent.setDataAndType(Uri.fromFile(new File(Environment
                                 .getExternalStorageDirectory(), "meiyouquan.apk")),
                         "application/vnd.android.package-archive");
+
                 startActivity(intent);
             }
 
             @Override
             public void inProgress(float progress, long total, int id) {
                 super.inProgress(progress, total, id);
-                //显示进度 progress百分比
+//                  pb.setMax((int) total);
 
+                  //显示进度 progress百分比
+                  pb.setProgress((int) (100*progress));
 
             }
 
 
         });
-
     }
 
     private void requestData(View view) {
@@ -250,7 +309,13 @@ public class HomeFragment extends Fragment implements VRcAdapter.OnItemClickLite
         setBanner(view);
 
 //      setViewPager();
-        mViewPager.setPageMargin(DisplayUtil.dp2px(getActivity(), 6));
+        mViewPager.setPageMargin(DisplayUtil.dp2px(getActivity(), 2));
+        ViewGroup.LayoutParams layoutParams = mViewPager.getLayoutParams();
+
+        int i = ScreenWidth - 2 * DisplayUtil.dp2px(getActivity(), 60) - 2 * DisplayUtil.dp2px(getActivity(), 2) - 3 * DisplayUtil.dp2px(getActivity(), 10);
+        layoutParams.height=i*3/2+4* DisplayUtil.dp2px(getActivity(), 10);
+        mViewPager.setLayoutParams(layoutParams);
+        Log.e("TAG","ScreenWidth"+ScreenWidth+"   hei="+layoutParams.height+"  i"+i);
         //设置缓存的页面数量
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.setPageTransformer(true, new ScaleInTransformer());
@@ -462,7 +527,7 @@ public class HomeFragment extends Fragment implements VRcAdapter.OnItemClickLite
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                Toast.makeText(getActivity(), position + "", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), position + "", Toast.LENGTH_SHORT).show();
             }
         });
         banner.start();
@@ -479,6 +544,7 @@ public class HomeFragment extends Fragment implements VRcAdapter.OnItemClickLite
 //     Toast.makeText(getActivity(), position + "", Toast.LENGTH_SHORT).show();
         HomeReBean.ResultBean pData = data.get(position);
         String aid = pData.getActor_id();
+
         Intent intent = new Intent(getActivity(), ModelDetailActivity.class);
         intent.putExtra("aid", aid);
         startActivity(intent);
@@ -535,7 +601,6 @@ public class HomeFragment extends Fragment implements VRcAdapter.OnItemClickLite
 
 
     }
-
 
 
 

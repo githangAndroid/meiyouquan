@@ -1,0 +1,14 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@android:id/progress"
+        >
+        <clip>
+            <shape>
+                <solid android:color="@color/appcolor"></solid>
+                <size android:width="3dp"/>
+            </shape>
+
+        </clip>
+    </item>
+</layer-list>

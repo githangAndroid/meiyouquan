@@ -16,16 +16,12 @@ import java.util.List;
 
 public class MyAlbumItemAdapter  extends FragmentPagerAdapter{
 
-
-
-    private LayoutInflater inflater;
     private List<Fragment> fragments=new ArrayList<>();
     private List<String> titles;
 
     public MyAlbumItemAdapter(FragmentManager fm, Context context,List<String> titles,List<Fragment> fragments) {
         super(fm);
 
-        inflater=LayoutInflater.from(context);
         this.titles=titles;
         this.fragments=fragments;
     }

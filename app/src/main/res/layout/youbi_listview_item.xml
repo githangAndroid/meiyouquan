@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="@color/transparent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/ll_item"
+android:layout_width="match_parent"
+android:layout_margin="6dp"
+android:padding="10dp"
+android:gravity="center_vertical"
+
+android:layout_height="50dp"
+android:orientation="horizontal">
+
+<ImageView
+
+    android:id="@+id/image"
+    android:layout_width="25dp"
+    android:layout_height="25dp" />
+
+
+
+    <TextView
+
+        android:layout_marginLeft="10dp"
+        android:id="@+id/youbi_pay"
+        android:gravity="center_vertical"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:text="充值29尤币"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         />
+    <TextView
+
+        android:id="@+id/youbi_give"
+        android:layout_marginLeft="30dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/blac70"
+        android:textSize="11sp"
+        android:text="赠送2尤币"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+         />
+
+
+
+
+    <TextView
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:id="@+id/price"
+        android:gravity="center_vertical"
+        android:textColor="@color/pressed_false_green"
+        android:textSize="14sp"
+        android:text="¥ 698.0"
+        android:background="@drawable/youbi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+</LinearLayout>

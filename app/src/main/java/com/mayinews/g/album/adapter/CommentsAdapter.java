@@ -19,6 +19,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import jp.co.cyberagent.android.gpuimage.GPUImageFalseColorFilter;
 
 import static android.os.Build.VERSION_CODES.M;
 
@@ -61,7 +62,7 @@ public class CommentsAdapter extends BaseAdapter {
         CommentBean.ResultBean data = comments.get(position);
         ViewHolder viewHolder=null;
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.comment_list_pop_item, null);
+            convertView = View.inflate(context, R.layout.comment_list_pop_item,null);
             viewHolder=new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         }else{

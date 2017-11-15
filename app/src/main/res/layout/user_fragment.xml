@@ -119,7 +119,7 @@
 
 
         <RelativeLayout
-
+            android:visibility="gone"
             android:id="@+id/rl_pay"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -157,6 +157,7 @@
             android:background="#F0F0F0" />
 
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/rl_vip"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -194,6 +195,7 @@
             android:background="#F0F0F0" />
 
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/rl_payed"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -262,13 +264,44 @@
                 android:layout_marginRight="16dp"
                 android:src="@drawable/more_img" />
         </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_atten"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white">
 
+            <ImageView
+                android:id="@+id/iv_atten"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:src="@drawable/collection" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/iv_atten"
+                android:text="我的关注"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/more_img" />
+        </RelativeLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#F0F0F0" />
 
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/rl_unread"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -302,11 +335,13 @@
         </RelativeLayout>
 
         <View
+
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#F0F0F0" />
 
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/rl_order"
             android:layout_width="match_parent"
             android:layout_height="40dp"

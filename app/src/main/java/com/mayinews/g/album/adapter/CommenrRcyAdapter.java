@@ -3,12 +3,14 @@ package com.mayinews.g.album.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
+import com.bumptech.glide.load.model.file_descriptor.FileDescriptorFileLoader;
 import com.mayinews.g.R;
 import com.mayinews.g.album.bean.FollowingBean;
 
@@ -27,17 +29,19 @@ public class CommenrRcyAdapter extends RecyclerView.Adapter<CommenrRcyAdapter.My
 
     private Context context;
     List<FollowingBean.ResultBean> data = new ArrayList<>();
+    private LayoutInflater inflater;
 
 
     public CommenrRcyAdapter(Context context, List<FollowingBean.ResultBean> data) {
         this.context = context;
         this.data = data;
+        inflater=LayoutInflater.from(context);
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
-        View view = View.inflate(context, R.layout.comment_recycler_item, viewGroup);
+        View view = inflater.inflate(R.layout.comment_recycler_item,viewGroup,false);
         MyViewHolder holder = new MyViewHolder(view);
         return holder;
     }

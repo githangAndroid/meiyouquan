@@ -1,13 +1,16 @@
 package com.mayinews.g.home.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.PersistableBundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,7 +25,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
@@ -45,12 +51,19 @@ import com.mayinews.g.home.bean.SingleAlbum;
 import com.mayinews.g.utils.Constant;
 import com.mayinews.g.utils.SPUtils;
 import com.mayinews.g.view.CanotSlidingViewpager;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.BitmapCallback;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,8 +73,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 
-import static com.mayinews.g.R.id.avatar;
-import static com.mayinews.g.R.id.view;
+import static android.R.attr.id;
 
 public class PhotosActivity extends AppCompatActivity implements View.OnClickListener {
     List<String> data;
@@ -75,12 +87,6 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
     CircleImageView userAvatar;
     @BindView(R.id.tv_comment)
     TextView tvComment;
-    @BindView(R.id.tv_coll_count)
-    TextView tvCollCount;
-    @BindView(R.id.tv_zan_count)
-    TextView tvZanCount;
-    @BindView(R.id.tv_shared_count)
-    TextView tvSharedCount;
     @BindView(R.id.viewPager)
     CanotSlidingViewpager viewPager;
     @BindView(R.id.tob_bottom)
@@ -101,8 +107,10 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
     TextView tvNodata;
     @BindView(R.id.progress)
     ProgressBar progress;
-
-
+    private static final int THUMB_SIZE = 150;
+    @BindView(R.id.iv_coll)
+    ImageView ivColl;
+    private String aid;//艺人id
     private boolean isShow = false;//图片上下的布局是否显示,默认不显示
 
     private ImagesAdapter adapter = null;
@@ -114,19 +122,24 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
     private RecyclerView comRecyclerView;//评论页面显示收藏的RecyclerView
 
 
-
     private PopupWindow window;//水印的pop
 
-    private String desc;//描述
+
     private boolean isShowed;//标记水印水否显示过
     private TextView tvDesc;  //水印的描述
-    private String gid;//专辑得id
-    private List<CommentBean.ResultBean> comments;//评论数据
+
+    private List<CommentBean.ResultBean> comments=new ArrayList<CommentBean.ResultBean>();//评论数据
     private String token;  //token；
     private String avatar;  //头像地址；
     private String nickname;  //用户昵称；
     private int imagePosition;
-    private CommentsAdapter commentAdapter = new CommentsAdapter(this);;  //评论适配器
+    private CommentsAdapter commentAdapter = new CommentsAdapter(this);  //评论适配器
+    private PopupWindow SharedPopupWindow;
+    private IWXAPI api;
+    private String cover; //封面
+    private String gid;//专辑得id
+    private String desc;//描述
+    private String title; //标题
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +150,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_photos);
         ButterKnife.bind(this);
-
+        api = WXAPIFactory.createWXAPI(this, Constant.APPID);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -149,15 +162,15 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
             public void onPageSelected(int position) {
                 currentPage.setText(position + 1 + "");
                 imagePosition = position;
-
-                if (position == 8) {
-                    //禁止左滑
-                    viewPager.setScrollble(false);
-                    //显示
-                } else {
-
-                    viewPager.setScrollble(true);
-                }
+                //禁止滑动
+//                if (position == 8) {
+//                    //禁止左滑
+//                    viewPager.setScrollble(false);
+//                    //显示
+//                } else {
+//
+//                    viewPager.setScrollble(true);
+//                }
             }
 
             @Override
@@ -182,6 +195,11 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
+
+
+
+
+
         /*
                初始化各种PopWindow
          */
@@ -199,15 +217,27 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
             Log.e("TAG", "size" + size);
             totalPage.setText("/" + size);
             desc = intent.getStringExtra("desc");
-            gid=intent.getStringExtra("gid");
+
+            gid = intent.getStringExtra("gid");
+            aid = intent.getStringExtra("aid");
+            cover = intent.getStringExtra("cover");
+            title = intent.getStringExtra("title");
             Glide.with(this).load(buildGlideUrl("http://static.mayinews.com" + avatar)).into(userAvatar);
             initImageViewPager();
         } else {
-            String id = intent.getStringExtra("id");
+            aid = intent.getStringExtra("aid");
+            desc = intent.getStringExtra("desc");
+           String avatar =  desc = intent.getStringExtra("avatar");
 
+            gid = intent.getStringExtra("gid");
+
+            cover = intent.getStringExtra("cover");
+            title = intent.getStringExtra("title");
+            Log.e("TAG","AAAAA="+avatar);
+            Glide.with(this).load(buildGlideUrl("http://static.mayinews.com" + avatar)).into(userAvatar);
             //请求数据
             OkHttpUtils.get()
-                    .url("http://g.mayinews.com/api/getdoc/id/" + id)
+                    .url("http://g.mayinews.com/api/getdoc/id/" + gid)
                     .build().execute(new StringCallback() {
                 @Override
                 public void onError(Call call, Exception e, int id) {
@@ -223,9 +253,10 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
 
                         data = singleAlbum.getResult().getPicture();
                         if (data != null && data.size() > 0) {
-                            gid=singleAlbum.getResult().getId();
+                            gid = singleAlbum.getResult().getId();
                             totalPage.setText("/" + data.size());
                             desc = singleAlbum.getResult().getDescription();
+
                             initImageViewPager();
                         } else {
                             currentPage.setVisibility(View.GONE);
@@ -252,18 +283,53 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
         }
 
 
-          //获取用户信息
-          getUserInfo();
+        //获取用户信息
+        getUserInfo();
+
+        //获取当前专辑是否被收藏过
+
+        isCollection();
+
 //        initImageViewPager();
-//        initPop();
+//        ();
 
+        Log.e("TAG", "COVER=" + cover + "  desc=" + desc + "   title=" + title + "  aid=" + aid+"  gid="+gid);
+    }
 
+    private void isCollection() {
+        OkHttpUtils.get().url("http://g.mayinews.com/api/favor/gid/" + gid)
+                .addHeader("Authorization", "Bearer " + token)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            int status = jsonObject.optInt("status");
+                            if (status == 200) {
+                                int result = jsonObject.optInt("result");
+                                if (result == 1) {
+                                    //收藏过
+                                    ivColl.setImageResource(R.drawable.coll_press);
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                });
     }
 
     private void getUserInfo() {
-        token = (String) SPUtils.get(this,MyApplication.TOKEN,"");
-        avatar = (String) SPUtils.get(this,MyApplication.USERAVATAR,"");
-        nickname = (String) SPUtils.get(this,MyApplication.USERNICKNAME,"");
+        token = (String) SPUtils.get(this, MyApplication.TOKEN, "");
+        avatar = (String) SPUtils.get(this, MyApplication.USERAVATAR, "");
+        nickname = (String) SPUtils.get(this, MyApplication.USERNICKNAME, "");
 
 
     }
@@ -329,17 +395,6 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
 //
 //    }
 
-    /**
-     * 设置添加屏幕的背景透明度
-     *
-     * @param bgAlpha
-     */
-    public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
-        getWindow().setAttributes(lp);
-    }
-
 
     @Override
 
@@ -381,21 +436,19 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
             }
 
 
-
-
         });
         viewPager.setAdapter(adapter);
     }
 
 
-    @OnClick({R.id.back, R.id.tv_comment, R.id.rl_comments, R.id.rl_shared,R.id.rl_collection})
+    @OnClick({R.id.back, R.id.tv_comment, R.id.rl_comments, R.id.rl_shared, R.id.rl_collection})
     public void listener(View view) {
         switch (view.getId()) {
             case R.id.back:
                 finish();
                 break;
             case R.id.tv_comment:
-                Toast.makeText(PhotosActivity.this, "评论", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(PhotosActivity.this, "评论", Toast.LENGTH_SHORT).show();
                 //显示评论的pop
 //                showComPop();
                 showCommentPop();
@@ -409,14 +462,14 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.rl_shared:
-
+                showSharedPop();
 //                showShare();
                 break;
             case R.id.rl_collection:
-                    //收藏专辑
-                String token= (String) SPUtils.get(this,MyApplication.TOKEN,"");
-                OkHttpUtils.post().url(Constant.FAVOR).addHeader("Authorization","Bearer "+token)
-                        .addParams("gid",gid)
+                //收藏专辑
+                String token = (String) SPUtils.get(this, MyApplication.TOKEN, "");
+                OkHttpUtils.post().url(Constant.FAVOR).addHeader("Authorization", "Bearer " + token)
+                        .addParams("gid", gid)
                         .build()
                         .execute(new StringCallback() {
                             @Override
@@ -430,18 +483,19 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
                                 try {
                                     JSONObject jsonObject = new JSONObject(response);
                                     int status = jsonObject.optInt("status");
-                                    if(status==200){
+                                    if (status == 200) {
                                         JSONObject result = jsonObject.getJSONObject("result");
                                         String del = result.optString("del");
-                                         if(del.equals("1")){
-                                             Toast.makeText(PhotosActivity.this, "取消收藏成功", Toast.LENGTH_SHORT).show();
+                                        if (del.equals("1")) {
+                                            Toast.makeText(PhotosActivity.this, "取消收藏成功", Toast.LENGTH_SHORT).show();
+                                            ivColl.setImageResource(R.drawable.coll);
+                                        } else {
+                                            ivColl.setImageResource(R.drawable.coll_press);
+                                            Toast.makeText(PhotosActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
+                                        }
 
-                                         }else{
-                                             Toast.makeText(PhotosActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
-                                         }
 
-
-                                    }else{
+                                    } else {
 
                                         Toast.makeText(PhotosActivity.this, "系统错误,稍后再试", Toast.LENGTH_SHORT).show();
                                     }
@@ -451,10 +505,6 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
 
                             }
                         });
-
-
-
-
 
 
 //
@@ -482,7 +532,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
         comList = (ListView) view.findViewById(R.id.listView);
         comList.setAdapter(commentAdapter);
         comRecyclerView = (RecyclerView) view.findViewById(R.id.com_RecyclerView);
-        comRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
+        comRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         TextView com = (TextView) view.findViewById(R.id.com_comment);
         com.setOnClickListener(this);
@@ -490,7 +540,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
         //请求最近关注的
 
         OkHttpUtils.get().url(Constant.GETFOLLOW)
-                .addHeader("Authorization","Bearer "+token)
+                .addHeader("Authorization", "Bearer " + token)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -502,10 +552,10 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
                     public void onResponse(String response, int id) {
                         FollowingBean followingBean = JSON.parseObject(response, FollowingBean.class);
                         int status = followingBean.getStatus();
-                        if(status==200){
+                        if (status == 200) {
 
                             List<FollowingBean.ResultBean> result = followingBean.getResult();
-                            comRecyclerView.setAdapter(new CommenrRcyAdapter(PhotosActivity.this,result));
+                            comRecyclerView.setAdapter(new CommenrRcyAdapter(PhotosActivity.this, result));
 
 
                         }
@@ -513,13 +563,8 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
                 });
 
 
-
-
-
-
-
-         //请求评论列表
-        OkHttpUtils.get().url(Constant.GETCOMMENTS+gid).build()
+        //请求评论列表
+        OkHttpUtils.get().url(Constant.GETCOMMENTS + gid).build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
@@ -529,17 +574,18 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onResponse(String response, int id) {
                         CommentBean commentBean = JSON.parseObject(response, CommentBean.class);
-                       if(commentBean.getStatus()==200) {
+                        if (commentBean.getStatus() == 200) {
 
-                           comments = commentBean.getResult();
-                           if(comments!=null){
-                               commentAdapter.addData(comments);
-                               commentAdapter.notifyDataSetChanged();
-                           }else{
-                               comments=new ArrayList<CommentBean.ResultBean>();
-                           }
+                            comments = commentBean.getResult();
+                            if (comments != null) {
+                                commentAdapter.addData(comments);
+                                commentAdapter.notifyDataSetChanged();
+                            }
+                            else {
+                                comments = new ArrayList<CommentBean.ResultBean>();
+                            }
 
-                       }
+                        }
                     }
                 });
 
@@ -549,6 +595,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.DONUT)
     private void showComPop() {
 
         View view = LayoutInflater.from(this).inflate(R.layout.comment_pop, null, false);
@@ -560,7 +607,6 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
         commentPopWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         //让popupwindow不被输入法隐藏
         commentPopWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
         final TextView commentContent = (TextView) view.findViewById(R.id.comment_content);
         TextView send = (TextView) view.findViewById(R.id.send);
         send.setOnClickListener(new View.OnClickListener() {
@@ -568,26 +614,36 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
             public void onClick(View v) {
                 String text = commentContent.getText().toString();
 
-                if (text.toString().trim().length() > 4) {
+                if (text != null && !(text.trim().equals(""))) {
                     //请求接口发送评论
                     postComment(text);
+                    commentContent.setText("");
+
 
                 } else {
 
-                    Toast.makeText(PhotosActivity.this, "评论最少为5个字数", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PhotosActivity.this, "评论不能为空", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
 
     }
-
+    /**
+     * EditText获取焦点并显示软键盘
+     */
+    public static void showSoftInputFromWindow(Activity activity, EditText editText) {
+        editText.setFocusable(true);
+        editText.setFocusableInTouchMode(true);
+        editText.requestFocus();
+        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+    }
     private void postComment(String text) {
-        String token  = (String) SPUtils.get(this, MyApplication.TOKEN, "");
+        String token = (String) SPUtils.get(this, MyApplication.TOKEN, "");
         //请求评论列表
-        OkHttpUtils.post().url(Constant.POSTCOMMENTS+gid)
-                .addHeader("Authorization","Bearer "+token)
-                .addParams("text",text)
+        OkHttpUtils.post().url(Constant.POSTCOMMENTS + gid)
+                .addHeader("Authorization", "Bearer " + token)
+                .addParams("text", text)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -610,6 +666,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
                                 resultBean.setNickname(nickname);
                                 resultBean.setComment(text);
                                 comments.add(0, resultBean);
+                                commentAdapter.addData(comments);
                                 commentAdapter.notifyDataSetChanged();
                                 commentPopWindow.dismiss();
 
@@ -620,7 +677,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
 
                     }
 
-    });
+                });
 
     }
 
@@ -709,4 +766,122 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
         wm.getDefaultDisplay().getMetrics(outMetrics);
         return outMetrics.widthPixels;
     }
+
+    public void showSharedPop() {
+        View view = LayoutInflater.from(this).inflate(R.layout.shared_dialog, null);
+        View parent = LayoutInflater.from(this).inflate(R.layout.activity_photos, null);
+        SharedPopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+
+        LinearLayout llWx = (LinearLayout) view.findViewById(R.id.ll_wx);//微信好友
+        LinearLayout llPengyou = (LinearLayout) view.findViewById(R.id.ll_pengyou);//微信朋友圈
+        llWx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sharePicture("haoyou");
+            }
+        });
+        llPengyou.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sharePicture("pengyouquan");
+            }
+        });
+
+        SharedPopupWindow.setOutsideTouchable(true);
+        SharedPopupWindow.setFocusable(true);
+        //让pop可以点击外面消失掉
+        SharedPopupWindow.setBackgroundDrawable(new ColorDrawable(0));
+        SharedPopupWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
+
+        SharedPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1);
+            }
+        });
+        backgroundAlpha(0.5f);
+    }
+
+    //分享图片
+    private void sharePicture(String type) {
+        OkHttpUtils.get().url("http://static.mayinews.com" + cover)
+                .addHeader("Referer", "http://m.mayinews.com")
+                .build().execute(new BitmapCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                Log.e("TAG", "error" + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Bitmap bitmap, int id) {
+                WXWebpageObject webpage = new WXWebpageObject();
+                webpage.webpageUrl = "http://g.mayinews.com/n/" + aid;
+                WXMediaMessage msg = new WXMediaMessage(webpage);
+                msg.title = title;
+                msg.description = desc;
+                Log.e("TAG", "bmp" + bitmap);
+                byte[] bytes = bitmap2Bytes(bitmap, 32);
+//                msg.thumbData = bytes;
+                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 80, THUMB_SIZE, true);
+                msg.setThumbImage(thumbBmp);
+                thumbBmp.recycle();
+                //构造一个req
+                SendMessageToWX.Req req = new SendMessageToWX.Req();
+                req.transaction = buildTransaction("webpage");
+                req.message = msg;
+                if (type.equals("haoyou")) {
+                    req.scene = SendMessageToWX.Req.WXSceneSession;
+                } else if (type.equals("pengyouquan")) {
+                    req.scene = SendMessageToWX.Req.WXSceneTimeline;
+                }
+
+                api.sendReq(req);
+                //dialog消失
+                SharedPopupWindow.dismiss();
+                backgroundAlpha(1);
+            }
+        });
+
+//        finish();
+
+
+    }
+
+    /**
+     * Bitmap转换成byte[]并且进行压缩,压缩到不大于maxkb
+     *
+     * @param bitmap
+     * @param
+     * @return
+     */
+    public static byte[] bitmap2Bytes(Bitmap bitmap, int maxkb) {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
+        int options = 100;
+        while (output.toByteArray().length > maxkb && options != 10) {
+            output.reset(); //清空output
+            bitmap.compress(Bitmap.CompressFormat.JPEG, options, output);//这里压缩options%，把压缩后的数据存放到output中
+            options -= 10;
+        }
+        return output.toByteArray();
+    }
+
+    private String buildTransaction(final String type) {
+        return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getWindow().setAttributes(lp);
+    }
+
+
 }

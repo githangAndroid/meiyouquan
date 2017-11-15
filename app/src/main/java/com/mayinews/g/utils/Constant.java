@@ -10,7 +10,7 @@ public class Constant {
 
     public static final String GETCODE="http://g.mayinews.com/api/sendsms/";
 
-    public static final String PULLUPURL = "http://g.mayinews.com/api/pullup";
+    public static final String PULLUPURL = "http://g.mayinews.com/api/pullup/max/12";
     public static final String TAGURL = "http://g.mayinews.com/api/getchannels.html";
     public static final String GETACTORINFO = "http://g.mayinews.com/api/getactorinfo/aid/";
     public static final String GETTYPE = "http://g.mayinews.com/api/getchannels.html";  //获取分类
@@ -24,4 +24,5 @@ public class Constant {
     public static final String GETCOMMENTS = "http://g.mayinews.com/api/comment/max/20/gid/";
     public static final String POSTCOMMENTS = "http://g.mayinews.com/api/comment/gid/";
     public static final String GETFOLLOW ="http://g.mayinews.com/api/follow/type/following/page/0/max/10.html" ;
+    public static final String APPID = "wx5c0c58b77f794ad7";
 }

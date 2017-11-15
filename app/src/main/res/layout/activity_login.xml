@@ -15,12 +15,13 @@
         android:layout_width="40dp"
         android:layout_height="40dp" />
     <LinearLayout
-        android:visibility="gone"
+
         android:layout_marginTop="50dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/ll_qq"
             android:gravity="center_horizontal"
             android:layout_width="0dp"

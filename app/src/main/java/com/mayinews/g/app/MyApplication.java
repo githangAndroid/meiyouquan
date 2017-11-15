@@ -3,18 +3,9 @@ package com.mayinews.g.app;
 import android.app.Application;
 import android.util.Log;
 
-import com.alibaba.fastjson.JSON;
-import com.mayinews.g.app.bean.UserInfoBean;
-import com.mayinews.g.utils.Constant;
-import com.mayinews.g.utils.SPUtils;
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.io.Console;
-
-import okhttp3.Call;
 
 /**
  * Created by Administrator on 2017/9/29 0029.
@@ -30,20 +21,39 @@ public class MyApplication extends Application {
     public static final String USERNICKNAME = "com.mayinews.g.usernickname";
     public static final String USERSEX = "com.mayinews.g.usersex";
     public static final String LOGINSTATUES = "com.mayinews.loginstatues";
+    public static List<String> aids=new ArrayList<>();  //用来保存关注过的
 
 
     @Override
     public void onCreate() {
         super.onCreate();
-        setupLeakCanary();
+//        setupLeakCanary();
+        String appInfo = getAppInfo();
+        Log.e("TAG","包名"+appInfo);
+
 
     }
 
-    protected RefWatcher setupLeakCanary() {
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return RefWatcher.DISABLED;
+//    protected RefWatcher setupLeakCanary() {
+//        if (LeakCanary.isInAnalyzerProcess(this)) {
+//            return RefWatcher.DISABLED;
+//        }
+//        return LeakCanary.install(this);
+//    }
+
+
+
+    private String getAppInfo() {
+        try {
+            String pkName = this.getPackageName();
+            String versionName = this.getPackageManager().getPackageInfo(
+                    pkName, 0).versionName;
+            int versionCode = this.getPackageManager()
+                    .getPackageInfo(pkName, 0).versionCode;
+            return pkName ;
+        } catch (Exception e) {
         }
-        return LeakCanary.install(this);
+        return null;
     }
 }
 

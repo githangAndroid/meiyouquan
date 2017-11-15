@@ -16,11 +16,16 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.mayinews.g.MainActivity;
 import com.mayinews.g.R;
+import com.mayinews.g.utils.Constant;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.provider.UserDictionary.Words.APP_ID;
+import static com.mayinews.g.utils.Constant.APPID;
 
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -41,15 +46,22 @@ public class WelcomeActivity extends AppCompatActivity {
     private int time = 3;
     private boolean isOnClick = false;//标记是否点击过了
     private boolean isStartMain=false;//标记是否启动了MainActivity
+
+
+    // IWXAPI 是第三方app和微信通信的openapi接口
+    private IWXAPI api;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
-
+        // 通过WXAPIFactory工厂，获取IWXAPI的实例
+        api = WXAPIFactory.createWXAPI(this, Constant.APPID, true);
+        api.registerApp(Constant.APPID);
         startImage.setAlpha(0.6f);
         //请求推荐模特图片
-//        Glide.with(this).load("http://fns-photo-public.oss-cn-hangzhou.aliyuncs.com/1505460750868429d25.jpg").into(imageview);
+//        Glide.with(this).load("http://static.mayinews.com/Uploads/Girls/2017-11-08/5a02bb2ca314a.jpg").into(imageview);
         //imageView进行缩放
 
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(imageview, "scaleX", 1.0f, 1.5f);
@@ -88,7 +100,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         int height1 = wm1.getDefaultDisplay().getHeight();
 
-        ObjectAnimator trans = ObjectAnimator.ofFloat(startLl, "translationY", translationY, -height1/2);
+        ObjectAnimator trans = ObjectAnimator.ofFloat(startLl, "translationY", translationY, -height1/3);
         trans.setDuration(1000);
         trans.start();
         trans.addListener(new Animator.AnimatorListener() {
