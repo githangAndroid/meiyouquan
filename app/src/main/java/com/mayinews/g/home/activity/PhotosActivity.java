@@ -351,10 +351,10 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
         window.setBackgroundDrawable((new BitmapDrawable()));
 
 
-        AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0.5f);
-        alphaAnimation.setDuration(500);
-        alphaAnimation.setFillAfter(true);
-        inflate.startAnimation(alphaAnimation);
+//        AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0.5f);
+//        alphaAnimation.setDuration(500);
+//        alphaAnimation.setFillAfter(true);
+//        inflate.startAnimation(alphaAnimation);
         tvDesc = (TextView) inflate.findViewById(R.id.describe);
 
 //        backgroundAlpha(0.5f);
@@ -816,7 +816,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onResponse(Bitmap bitmap, int id) {
                 WXWebpageObject webpage = new WXWebpageObject();
-                webpage.webpageUrl = "http://g.mayinews.com/n/" + aid;
+                webpage.webpageUrl = "http://meiyou.130game.com/share/" + aid;
                 WXMediaMessage msg = new WXMediaMessage(webpage);
                 msg.title = title;
                 msg.description = desc;

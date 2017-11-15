@@ -2,15 +2,15 @@
 
 <LinearLayout
 
+    android:focusable="true"
+    android:paddingBottom="10dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     android:background="@color/white"
-    android:focusable="true"
+    android:layout_width="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="10dp">
-
+    android:layout_height="wrap_content"
+    >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
                 android:orientation="vertical">
 
                 <TextView
-
+                    android:layout_marginTop="10dp"
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
@@ -58,48 +58,51 @@
                     android:gravity="center_vertical">
 
                     <TextView
+                        android:textColor="#FF3A94"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="专辑"
-                        android:textColor="#FF3A94"
                         android:textSize="10sp"
 
                         />
 
                     <TextView
+                        android:textSize="10dp"
                         android:id="@+id/update_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:text="9月1日"
-                        android:textSize="10dp" />
+                        android:text="9月1日" />
 
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
 
         <TextView
+            android:textSize="12sp"
             android:id="@+id/desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:text="坐在落地窗前的浴缸上，后面的风景似乎变的平淡无奇，存在也只是为了衬托 她的妩媚。"
-            android:textSize="12sp" />
+            android:layout_below="@id/info"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="6dp"
+            android:text="坐在落地窗前的浴缸上，后面的风景似乎变的平淡无奇，存在也只是为了衬托 她的妩媚。" />
+
+
+
 
 
         <ImageView
-            android:id="@+id/single_imageview"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:visibility="gone"
             android:layout_below="@id/desc"
             android:layout_marginLeft="70dp"
-            android:visibility="gone" />
+            android:id="@+id/single_imageview"
+            android:layout_width="match_parent"
+            android:layout_height="180dp" />
+
 
 
     </RelativeLayout>
-
     <LinearLayout
         android:id="@+id/ll_nine"
         android:layout_width="match_parent"
@@ -218,34 +221,35 @@
 
     </LinearLayout>
 
+
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
         android:layout_marginTop="20dp"
-        android:background="#F0F0F0" />
+        android:background="#F0F0F0"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
 
     <RelativeLayout
 
+        android:layout_marginLeft="70dp"
+
         android:layout_width="match_parent"
-
-        android:layout_height="30dp"
-        android:layout_marginLeft="70dp">
-
+        android:layout_height="30dp">
         <TextView
-            android:id="@+id/view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-
+            android:textSize="10dp"
             android:gravity="center"
-            android:textSize="10dp" />
+            android:id="@+id/view"
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
 
         <ImageView
 
             android:id="@+id/share"
+            android:src="@drawable/more_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/more_img" />
+            android:layout_alignParentRight="true"
+            />
     </RelativeLayout>
 </LinearLayout>

@@ -26,8 +26,6 @@ import com.mayinews.g.home.bean.ModelDetailBean2;
 import com.mayinews.g.user.activity.LoginActivity;
 import com.mayinews.g.utils.DisplayUtil;
 import com.mayinews.g.utils.SPUtils;
-import com.mayinews.g.view.NineGridAdapter;
-import com.mayinews.g.view.NineGridlayout;
 
 import java.util.ArrayList;
 import java.util.Date;

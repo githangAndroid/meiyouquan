@@ -8,6 +8,7 @@
 
 package com.mayinews.g.wxapi;
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -115,6 +116,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 						finish();
 						break;
 					default:
+
 						break;
 				}
 
