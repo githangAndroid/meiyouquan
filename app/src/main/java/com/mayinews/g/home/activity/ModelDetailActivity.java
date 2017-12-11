@@ -16,23 +16,22 @@ import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
-import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
-
-import com.markmao.pullscrollview.ui.widget.PullScrollView;
 
 import com.mayinews.g.R;
 import com.mayinews.g.app.MyApplication;
 import com.mayinews.g.home.adapter.ModelDetailAdapter;
 import com.mayinews.g.home.bean.HomeReBean;
+import com.mayinews.g.home.bean.IsAttenBean;
 import com.mayinews.g.home.bean.ModelDetailBean1;
 import com.mayinews.g.home.bean.ModelDetailBean2;
 import com.mayinews.g.user.activity.LoginActivity;
 import com.mayinews.g.utils.Constant;
 import com.mayinews.g.utils.SPUtils;
 import com.mayinews.g.view.FullyLinearLayoutManager;
+import com.mayinews.g.view.ResizableImageView;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -44,13 +43,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import com.mayinews.g.utils.NetworkUtils;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import static android.R.attr.data;
-import static android.R.attr.paddingStart;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 /**
  * 主页下面的模特点击后的页面
@@ -63,7 +57,7 @@ public class ModelDetailActivity extends AppCompatActivity{
 
 
 
-    ImageView mHeadImg;//可拉伸的顶部图片
+    ResizableImageView mHeadImg;//可拉伸的顶部图片
     TextView username;
     TextView city;
     TextView threeDimensional;
@@ -88,13 +82,18 @@ public class ModelDetailActivity extends AppCompatActivity{
     private View headView;//头部view
     private boolean isAtten=false;  //标记是否关注
     private String aid; //模特ID
+    private int attenCount;//关注当前模特的人数
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_model_detail);
         ButterKnife.bind(this);
-
+//        PullZoomView pzv = (PullZoomView) findViewById(R.id.pzv);
+//        pzv.setIsParallax(true);    //允许视差动画
+//        pzv.setIsZoomEnable(true);  //允许头部放大
+//        pzv.setSensitive(1.5f);     //敏感度1.5
+//        pzv.setZoomTime(500);       //头部缩放时间500毫秒
 //        initView();
 
 
@@ -107,7 +106,7 @@ public class ModelDetailActivity extends AppCompatActivity{
         height= (TextView) headView.findViewById(R.id.tv_height);
         userAvatar= (CircleImageView) headView.findViewById(R.id.user_avatar);
         followCount= (TextView) headView.findViewById(R.id.followCount);
-        mHeadImg = (ImageView) findViewById(R.id.background_img);
+        mHeadImg = (ResizableImageView) findViewById(R.id.background_img);
         attention= (TextView) headView.findViewById(R.id.attention);
 //        rootView.setVisibility(View.GONE);
         iv_back= (ImageView) findViewById(R.id.back);
@@ -157,37 +156,37 @@ public class ModelDetailActivity extends AppCompatActivity{
 //        RequestLreData(); //请求下面的数据
 
             //判断是否关注
-//            isAtten();
+            isAtten();
     }
 
     private void isAtten() {
-
-        OkHttpUtils.get().url("http://g.mayinews.com/api/follow/"+aid).addHeader("Authorization","Bearer "+token)
+        token = (String) SPUtils.get(this, MyApplication.TOKEN,""); //获取token
+        OkHttpUtils.get().url("http://meiyou.130game.com/api/follow/aid/"+aid).addHeader("Authorization","Bearer "+token)
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-
+                   Log.e("TAG","进入错误"+e.getMessage()+"aid"+aid);
             }
 
             @Override
             public void onResponse(String response, int id) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    int status = jsonObject.optInt("status");
-                    if(status==200){
-                        JSONObject result = jsonObject.optJSONObject("result");
-                        int del = result.optInt("del");
-                        if(del==1){
+                Log.e("TAG","进入"+response);
+                IsAttenBean isAttenBean = JSON.parseObject(response, IsAttenBean.class);
+                int status = isAttenBean.getStatus();
+                if(status==200){
+                    IsAttenBean.ResultBean result = isAttenBean.getResult();
+                     attenCount = result.getCount();
+                    followCount.setText(attenCount+"人已关注她");
+                    boolean isFollow = result.isIsFollow();
+                    if(isFollow){
+                        attention.setText("取消关注");
+                    }else{
+                        attention.setText("关注Ta");
 
-
-                        }else{
-
-
-                        }
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+
+
             }
         });
 
@@ -197,7 +196,7 @@ public class ModelDetailActivity extends AppCompatActivity{
 
     //    protected void initView() {
 //        mScrollView = (PullScrollView) findViewById(com.markmao.pullscrollview.R.id.scroll_view);
-//        mHeadImg = (ImageView) findViewById(com.markmao.pullscrollview.R.id.background_img);
+
 //        mScrollView.setHeader(mHeadImg);
 //
 //
@@ -207,13 +206,13 @@ public class ModelDetailActivity extends AppCompatActivity{
         username.setText(data.getActor());
         //设置背景
 //        Glide.with(this).load(buildGlideUrl("http://static.mayinews.com"+ data.getActor_image())).into(mHeadImg);
-         Glide.with(this).load(buildGlideUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1508390658035&di=74c13488c80ed535a57b50915b305723&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D3884961763%2C365552436%26fm%3D214%26gp%3D0.jpg")).into(mHeadImg);
+//         Glide.with(this).load(buildGlideUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1508390658035&di=74c13488c80ed535a57b50915b305723&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D3884961763%2C365552436%26fm%3D214%26gp%3D0.jpg")).into(mHeadImg);
 
         //设置城市，三维，身高
         city.setText(data.getActor_city());
         threeDimensional.setText(data.getActor_size());
         height.setText(data.getActor_height());
-        followCount.setText("0人已关注她");
+//        followCount.setText("0人已关注她");
      
 
     }
@@ -224,6 +223,7 @@ public class ModelDetailActivity extends AppCompatActivity{
 
             OkHttpUtils.get()
                     .url("http://g.mayinews.com/api/getdoc/aid/"+aid)
+
                     .build().execute(new StringCallback() {
                 @Override
                 public void onError(Call call, Exception e, int id) {
@@ -242,7 +242,7 @@ public class ModelDetailActivity extends AppCompatActivity{
 
                          detailAdapter.notifyDataSetChanged();
 
-                        Glide.with(ModelDetailActivity.this).load(buildGlideUrl("http://static.mayinews.com"+ result.get(0).getCover())).into(mHeadImg);
+                         Glide.with(ModelDetailActivity.this).load(buildGlideUrl("http://static.mayinews.com"+ result.get(0).getCover())).into(mHeadImg);
                          mLRecyclerViewAdapter.notifyDataSetChanged();
 //                       rootView.setVisibility(View.VISIBLE);
                          lRecyclerView.setBackgroundColor(getResources().getColor(R.color.transparent));
@@ -293,7 +293,7 @@ public class ModelDetailActivity extends AppCompatActivity{
                     city.setText(result.getCity());
                     threeDimensional.setText(result.getSize());
                     height.setText(result.getHeight());
-                    followCount.setText("0人已关注她");
+//                    followCount.setText("0人已关注她");
                     lRecyclerView.setBackgroundColor(getResources().getColor(R.color.transparent));
                     RequestLreData(result);
 
@@ -372,8 +372,8 @@ public class ModelDetailActivity extends AppCompatActivity{
         token = (String) SPUtils.get(this, MyApplication.TOKEN,""); //获取token
 
 
-        OkHttpUtils.post().url(Constant.POSTAVATAR).addHeader("Authorization","Bearer "+token)
-                .addParams("follow",aid).build()
+        OkHttpUtils.post().url("http://meiyou.130game.com/api/follow").addHeader("Authorization","Bearer "+token)
+                .addParams("aid",aid).build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
@@ -386,19 +386,23 @@ public class ModelDetailActivity extends AppCompatActivity{
                         try {
                             JSONObject josnObj=new JSONObject(response);
                             int status = josnObj.optInt("status");
+
                             if(status==200){
-                                JSONObject result = josnObj.optJSONObject("result");
-                                int del = result.optInt("del");
-                                if(del==1){
+                                String doing = josnObj.optString("doing");
+                                if(doing.equals("移除关注")){
 
-                                        attention.setText("取消关注");
-                                        Toast.makeText(ModelDetailActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
+                                        attention.setText("关注Ta");
+                                    attenCount--;
+                                    followCount.setText(attenCount+"人已关注她");
+                                        Toast.makeText(ModelDetailActivity.this, "取消成功", Toast.LENGTH_SHORT).show();
 
 
 
-                                }else{
-                                    attention.setText("关注Ta");
-                                    Toast.makeText(ModelDetailActivity.this, "取消成功", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    attention.setText("取消关注");
+                                    attenCount++;
+                                    followCount.setText(attenCount+"人已关注她");
+                                    Toast.makeText(ModelDetailActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                                 }
 
                             }else if(status==401){

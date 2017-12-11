@@ -204,7 +204,7 @@ public class AVLoadingIndicatorView extends View {
             Class<?> drawableClass = Class.forName(drawableClassName.toString());
             Indicator indicator = (Indicator) drawableClass.newInstance();
             setIndicator(indicator);
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException ignored) {
             Log.e(TAG, "Didn't find your class , check the name again !" + indicatorName);
         } catch (InstantiationException e) {
             e.printStackTrace();

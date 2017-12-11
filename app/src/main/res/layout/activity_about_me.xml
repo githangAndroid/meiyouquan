@@ -6,9 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/topbar"
-        layout="@layout/topbar" />
+    <include layout="@layout/topbar" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -35,7 +33,6 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

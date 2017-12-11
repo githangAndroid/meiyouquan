@@ -147,7 +147,7 @@ public class SPUtils {
             try {
                 Class clz = SharedPreferences.Editor.class;
                 return clz.getMethod("apply");
-            } catch (NoSuchMethodException e) {
+            } catch (NoSuchMethodException ignored) {
             }
 
             return null;
@@ -164,9 +164,9 @@ public class SPUtils {
                     sApplyMethod.invoke(editor);
                     return;
                 }
-            } catch (IllegalArgumentException e) {
-            } catch (IllegalAccessException e) {
-            } catch (InvocationTargetException e) {
+            } catch (IllegalArgumentException ignored) {
+            } catch (IllegalAccessException ignored) {
+            } catch (InvocationTargetException ignored) {
             }
             editor.commit();
         }

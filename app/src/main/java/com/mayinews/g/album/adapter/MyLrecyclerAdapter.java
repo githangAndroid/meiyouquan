@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -78,7 +79,7 @@ public class MyLrecyclerAdapter extends RecyclerView.Adapter<MyLrecyclerAdapter.
 
         holder.item_tv.setText(dataBean.getActor());
          if(listener!=null){
-             holder.avatar.setOnClickListener(new View.OnClickListener() {
+             holder.rlAvatar.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View view) {
                      listener.onAvaListener(position);
@@ -94,6 +95,7 @@ public class MyLrecyclerAdapter extends RecyclerView.Adapter<MyLrecyclerAdapter.
     }
 
     class MyViewHolder extends  RecyclerView.ViewHolder{
+        RelativeLayout rlAvatar;
         CircleImageView avatar;
         ImageView item_iv;
         TextView  item_tv;
@@ -103,6 +105,8 @@ public class MyLrecyclerAdapter extends RecyclerView.Adapter<MyLrecyclerAdapter.
             item_iv= (ImageView) itemView.findViewById(R.id.item_iv);
             item_tv= (TextView) itemView.findViewById(R.id.item_tv);
             avatar= (CircleImageView) itemView.findViewById(R.id.avatar);
+            rlAvatar= (RelativeLayout) itemView.findViewById(R.id.rl_avatar);
+
 //            share= (TextView) itemView.findViewById(R.id.share);
 //
 //            share.setOnClickListener(new View.OnClickListener() {

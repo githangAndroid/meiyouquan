@@ -2,14 +2,11 @@ package com.mayinews.g.user.activity;
 
 import android.Manifest;
 import android.content.ContentUris;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.database.CursorIndexOutOfBoundsException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.tv.TvInputManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,7 +17,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -45,28 +41,19 @@ import com.mayinews.g.app.MyApplication;
 import com.mayinews.g.user.bean.PostAvaterResultBean;
 import com.mayinews.g.utils.Constant;
 import com.mayinews.g.utils.SPUtils;
-import com.nanchen.compresshelper.CompressHelper;
 import com.yalantis.ucrop.UCrop;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.util.logging.Level;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
-
-import static android.R.attr.data;
-import static cn.sharesdk.yixin.utils.YXMessage.MessageType.FILE;
-import static com.mayinews.g.R.id.avatar;
 
 
 public class PersonalDataActivity extends AppCompatActivity {

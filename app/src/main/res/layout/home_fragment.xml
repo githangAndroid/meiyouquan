@@ -50,6 +50,7 @@ android:orientation="vertical">
             android:textSize="14sp" />
 
         <com.youth.banner.Banner
+
             android:id="@+id/banner"
             android:layout_width="wrap_content"
             android:layout_height="140dp"
@@ -136,7 +137,7 @@ android:orientation="vertical">
                     android:textSize="10sp"
                     android:layout_marginTop="4dp"
                     android:textColor="#FF3A94"
-                    android:text="红人榜No.1"
+                    android:text="No.2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -164,7 +165,7 @@ android:orientation="vertical">
                     android:textColor="#FF3A94"
                     android:textSize="10sp"
                     android:layout_marginTop="4dp"
-                    android:text="新人榜No.1"
+                    android:text="No.1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -194,7 +195,7 @@ android:orientation="vertical">
                     android:textColor="#FF3A94"
                     android:textSize="10sp"
                     android:layout_marginTop="4dp"
-                    android:text="人气榜No.1"
+                    android:text="No.3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>

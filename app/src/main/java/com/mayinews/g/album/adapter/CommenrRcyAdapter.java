@@ -10,14 +10,12 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
-import com.bumptech.glide.load.model.file_descriptor.FileDescriptorFileLoader;
 import com.mayinews.g.R;
 import com.mayinews.g.album.bean.FollowingBean;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**

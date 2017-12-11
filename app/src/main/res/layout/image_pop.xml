@@ -96,7 +96,6 @@
       </RelativeLayout>
 
     <ImageView
-        android:id="@+id/pay_back"
         android:layout_centerHorizontal="true"
         android:src="@drawable/vip_pop_top"
 

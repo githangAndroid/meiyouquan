@@ -12,7 +12,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
@@ -83,9 +82,9 @@ public class MyCollectionAlbumAdapter extends RecyclerView.Adapter<MyCollectionA
                     //进入详情页
 
                     Intent intent = new Intent(context, PhotosActivity.class);
-                    intent.putExtra("id", resultBean.getId());
+                    intent.putExtra("gid", resultBean.getId());
+                    intent.putExtra("cover",resultBean.getCover());
                     context.startActivity(intent);
-                    Toast.makeText(context, i + "", Toast.LENGTH_SHORT).show();
                 }
             });
 

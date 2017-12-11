@@ -28,9 +28,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
-import static android.R.attr.data;
-import static android.R.attr.type;
-
 public class SearchActivity extends AppCompatActivity {
 
     @BindView(R.id.cancle)

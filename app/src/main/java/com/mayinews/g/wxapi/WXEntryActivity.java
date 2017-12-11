@@ -8,7 +8,6 @@
 
 package com.mayinews.g.wxapi;
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;

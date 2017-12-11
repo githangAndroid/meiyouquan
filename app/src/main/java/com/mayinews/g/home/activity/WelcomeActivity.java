@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.mayinews.g.MainActivity;
 import com.mayinews.g.R;
 import com.mayinews.g.utils.Constant;
@@ -23,9 +22,6 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.provider.UserDictionary.Words.APP_ID;
-import static com.mayinews.g.utils.Constant.APPID;
 
 
 public class WelcomeActivity extends AppCompatActivity {

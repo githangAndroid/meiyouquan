@@ -17,11 +17,8 @@ import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.github.chrisbanes.photoview.PhotoView;
 
 import java.util.List;
-
-import static com.mayinews.g.R.id.imageView;
 
 /**
  * Created by Administrator on 2017/9/14 0014.

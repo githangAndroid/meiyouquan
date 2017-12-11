@@ -55,7 +55,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.mayinews.g.R.id.ll_noLogin;
 import static com.mayinews.g.R.id.ll_setData;
-import static com.mayinews.g.R.id.ll_yesLogin;
 
 
 /**
@@ -305,7 +304,13 @@ public class UserFragment extends Fragment {
                 sharePicture("pengyouquan");
             }
         });
-
+        TextView cancle = (TextView) view.findViewById(R.id.cancle);//微信朋友圈
+        cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPopupWindow.dismiss();
+            }
+        });
         SharedPopupWindow.setOutsideTouchable(true);
         SharedPopupWindow.setFocusable(true);
         //让pop可以点击外面消失掉

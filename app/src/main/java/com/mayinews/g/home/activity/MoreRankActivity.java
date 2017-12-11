@@ -1,5 +1,6 @@
 package com.mayinews.g.home.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -11,8 +12,10 @@ import android.widget.TextView;
 import com.gxz.PagerSlidingTabStrip;
 import com.mayinews.g.R;
 import com.mayinews.g.home.adapter.RankAdapter;
+import com.mayinews.g.home.bean.RankListBean;
 import com.mayinews.g.home.fragment.RankFragment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,10 +41,10 @@ public class MoreRankActivity extends AppCompatActivity {
         title.setText("排行榜");
         titles=new ArrayList<>();
         titles.add("热销榜");
-        titles.add("经典榜");
-        titles.add("新人榜");
-        titles.add("红人榜");
-        titles.add("飙升榜");
+//        titles.add("经典榜");
+//        titles.add("新人榜");
+//        titles.add("红人榜");
+//        titles.add("飙升榜");
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,11 +60,16 @@ public class MoreRankActivity extends AppCompatActivity {
     private void setViewPager() {
            List<Fragment>  fragments = new ArrayList<>();
            //添加Fragment
-            for (int i=0;i<5;i++){
-                fragments.add(new RankFragment(this));
+//            for (int i=0;i<5;i++){
+//                fragments.add(new RankFragment(this));
+//
+//               }
 
-               }
 
+        Intent intent = getIntent();
+        Bundle bundle = intent.getBundleExtra("bundle");
+        List<RankListBean.ResultBean> ranklist = (List<RankListBean.ResultBean>) bundle.getSerializable("ranklist");
+         fragments.add(new RankFragment(this,ranklist));
                  RankAdapter adapter = new RankAdapter(getSupportFragmentManager(), this, fragments,titles);
                  viewPager.setAdapter(adapter);
                   setTab();

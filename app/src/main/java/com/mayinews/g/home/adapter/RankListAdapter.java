@@ -1,17 +1,21 @@
 package com.mayinews.g.home.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 import com.mayinews.g.R;
 import com.mayinews.g.home.bean.RankBean;
+import com.mayinews.g.home.bean.RankListBean;
 
 import java.util.List;
 
@@ -27,11 +31,11 @@ public class RankListAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
 
-    private List<RankBean.DataBean> data;
+    private List<RankListBean.ResultBean> data;
     private final int BEFORETYPE = 0;//定义第一种类型
     private final int NORMALTYPE = 1;//定义第二种类型
 
-    public RankListAdapter(Context context, List<RankBean.DataBean> data) {
+    public RankListAdapter(Context context, List<RankListBean.ResultBean> data) {
         this.context = context;
         this.data = data;
         inflater = LayoutInflater.from(context);
@@ -58,7 +62,7 @@ public class RankListAdapter extends BaseAdapter {
         int itemViewType = getItemViewType(position);
         MyViewHolder1 viewHolder1 = null;
         MyViewHolder2 viewHolder2 = null;
-        RankBean.DataBean dataBean = data.get(position);
+        RankListBean.ResultBean dataBean = data.get(position);
         //设置view和绑定数据
         if (convertView == null) {
             //确定类型
@@ -69,9 +73,9 @@ public class RankListAdapter extends BaseAdapter {
                     convertView = inflater.inflate(R.layout.rank_item1, parent, false);
                     viewHolder1 = new MyViewHolder1(convertView);
 //                    viewHolder1.borderImage.setImageResource(R.drawable.number_one);
-                    Glide.with(context).load(dataBean.getCoverPath()).into(viewHolder1.image);
-                    viewHolder1.name.setText(dataBean.getUser_name());
-                    viewHolder1.readCount.setText("订阅量" + dataBean.getSeeCount());
+                    Glide.with(context).load(buildGlideUrl("http://static.mayinews.com"+dataBean.getAvatar())).into(viewHolder1.image);
+                    viewHolder1.name.setText(dataBean.getNickname());
+                    viewHolder1.readCount.setText("订阅量" + dataBean.getFollow());
                     if (position == 0) {
                         viewHolder1.rootView.setBackgroundColor(context.getResources().getColor(R.color.yello_one));
                     } else if (position == 1) {
@@ -92,9 +96,10 @@ public class RankListAdapter extends BaseAdapter {
                     //绑定数据
 
                     viewHolder2.tvNumber.setText("NO." + (position + 1));
-                    Glide.with(context).load(dataBean.getCoverPath()).into(viewHolder2.image);
-                    viewHolder2.name.setText(dataBean.getUser_name());
-                    viewHolder2.readCount.setText("订阅量" + dataBean.getSeeCount());
+                    Log.e("TAG","dataBean.getAvatar()"+dataBean.getAvatar());
+                    Glide.with(context).load(buildGlideUrl("http://static.mayinews.com"+dataBean.getAvatar())).into(viewHolder2.image);
+                    viewHolder2.name.setText(dataBean.getNickname());
+                    viewHolder2.readCount.setText("订阅量" + dataBean.getFollow());
                     if (position == (data.size() - 1)) {
 
                         viewHolder2.divider.setVisibility(View.GONE);
@@ -163,6 +168,12 @@ public class RankListAdapter extends BaseAdapter {
             ButterKnife.bind(this, view);
         }
     }
-
+    private GlideUrl buildGlideUrl(String url) {
+        if (TextUtils.isEmpty(url)) {
+            return null;
+        } else {
+            return new GlideUrl(url, new LazyHeaders.Builder().addHeader("Referer", "http://m.mayinews.com").build());
+        }
+    }
 
 }

@@ -2,8 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group
-        android:visible="false"
-        android:id="@+id/item1">
+        android:visible="false">
 
 
         <item
@@ -14,8 +13,7 @@
             android:title="充值" />
     </group>
     <group
-        android:visible="false"
-        android:id="@+id/item2">
+        android:visible="false">
 
 
         <item
@@ -24,7 +22,7 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="已购买的" />
     </group>
-    <group android:id="@+id/item3">
+    <group>
 
 
         <item
@@ -33,7 +31,7 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="分享" />
     </group>
-    <group android:id="@+id/item4">
+    <group>
         <item
             android:id="@+id/setting"
             android:icon="@drawable/ic_menu_manage"

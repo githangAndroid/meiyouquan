@@ -61,7 +61,6 @@
 
             <ImageView
 
-                android:id="@+id/imageView2"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
@@ -245,7 +244,7 @@
                 android:layout_height="20dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="12dp"
-                android:src="@drawable/collection" />
+                android:src="@drawable/collect_press" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -276,7 +275,7 @@
                 android:layout_height="20dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="12dp"
-                android:src="@drawable/collection" />
+                android:src="@drawable/atten_press" />
 
             <TextView
                 android:layout_width="wrap_content"

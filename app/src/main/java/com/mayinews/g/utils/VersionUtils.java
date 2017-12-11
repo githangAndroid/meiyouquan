@@ -13,7 +13,7 @@ public class VersionUtils {
         int verCode = -1;
         try {
             verCode = context.getPackageManager().getPackageInfo( "com.mayinews", 0).versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException ignored) {
 
         }
 
@@ -25,7 +25,7 @@ public class VersionUtils {
         try {
             verName = context.getPackageManager().getPackageInfo(
                     "com.mayinews", 0).versionName;
-        } catch (PackageManager.NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException ignored) {
 
 
         }

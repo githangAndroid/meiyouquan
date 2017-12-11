@@ -51,7 +51,7 @@ public class MyApplication extends Application {
             int versionCode = this.getPackageManager()
                     .getPackageInfo(pkName, 0).versionCode;
             return pkName ;
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return null;
     }

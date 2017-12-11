@@ -170,13 +170,13 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v) {
 
 
-                 if(getLoginState()){
-                     //打开个人资料页面
-                     startActivity(new Intent(MainActivity.this, PersonalDataActivity.class));
-                 }else{
-                     //打开登录页面
-                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                 }
+                if(getLoginState()){
+                    //打开个人资料页面
+                    startActivity(new Intent(MainActivity.this, PersonalDataActivity.class));
+                }else{
+                    //打开登录页面
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                }
             }
         });
         drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
@@ -187,12 +187,15 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onDrawerOpened(View view) {
-                    Log.e("TAG","open");
+                Log.e("TAG","open");
                 if(getLoginState()){
                     String nickname = (String) get(MainActivity.this, MyApplication.USERNICKNAME, "");
                     String avatar = (String) get(MainActivity.this, MyApplication.USERAVATAR, "");
                     tvNickname.setText(nickname);
-                    Glide.with(MainActivity.this).load(buildGlideUrl(avatar)).into(iv);
+                    if(avatar!=null && avatar.equals("")){
+                        Glide.with(MainActivity.this).load(buildGlideUrl(avatar)).into(iv);
+                    }
+
                 }else{
 
                     tvNickname.setText("立即登录");
@@ -255,9 +258,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -427,12 +430,12 @@ public class MainActivity extends AppCompatActivity
     public boolean getLoginState(){
 
         String state = (String) SPUtils.get(MainActivity.this, MyApplication.LOGINSTATUES, "0");
-         if(state.equals("1")){
-             return  true;
-         }
+        if(state.equals("1")){
+            return  true;
+        }
 
 
-         return false;
+        return false;
 
     }
     public void   showSharedPop(){
@@ -447,6 +450,13 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 sharePicture("haoyou");
+            }
+        });
+        TextView cancle = (TextView) view.findViewById(R.id.cancle);//微信朋友圈
+        cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPopupWindow.dismiss();
             }
         });
         llPengyou.setOnClickListener(new View.OnClickListener() {

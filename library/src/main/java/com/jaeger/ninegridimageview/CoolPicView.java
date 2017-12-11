@@ -114,7 +114,7 @@ public class CoolPicView extends ImageView {
         Drawable drawable = null;
         try {
             drawable = getResources().getDrawable(resId);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         setImageDrawable(drawable);

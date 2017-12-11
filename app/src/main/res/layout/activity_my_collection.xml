@@ -8,9 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/topbar"
-        layout="@layout/topbar" />
+    <include layout="@layout/topbar" />
 
     <com.gxz.PagerSlidingTabStrip
         android:visibility="gone"

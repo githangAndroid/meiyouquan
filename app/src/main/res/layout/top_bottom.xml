@@ -120,7 +120,6 @@
                     android:src="@drawable/zan_img" />
 
                 <TextView
-                    android:id="@+id/tv_zan_count"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignParentBottom="true"

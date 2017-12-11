@@ -5,12 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.mayinews.g.R;
-import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.mayinews.g.R.id.textView;
 
 
 public class CodeActivity extends AppCompatActivity {

@@ -9,9 +9,7 @@
     android:orientation="vertical"
     tools:context="com.mayinews.g.user.activity.PersonalAttenActivity">
 
-    <include
-        android:id="@+id/topbar"
-        layout="@layout/topbar" />
+    <include layout="@layout/topbar" />
    <View
        android:layout_width="match_parent"
        android:layout_height="1dp"

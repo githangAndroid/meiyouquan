@@ -1,22 +1,14 @@
 package com.mayinews.g.utils;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.mayinews.g.R;
-import com.mayinews.g.home.activity.PhotosActivity;
-
-import static com.mayinews.g.R.id.view;
 
 /**
  * Created by Administrator on 2017/11/1 0001.

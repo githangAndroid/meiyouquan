@@ -8,6 +8,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.mayinews.g.user.activity.PayActivity">
-    <include android:id="@+id/topbar" layout="@layout/topbar"/>
+    <include layout="@layout/topbar"/>
 
 </LinearLayout>

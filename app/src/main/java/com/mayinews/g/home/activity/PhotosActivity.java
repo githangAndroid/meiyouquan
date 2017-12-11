@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
@@ -24,7 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,10 +41,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 import com.mayinews.g.R;
-import com.mayinews.g.album.adapter.CommenrRcyAdapter;
 import com.mayinews.g.album.adapter.CommentsAdapter;
 import com.mayinews.g.album.bean.CommentBean;
-import com.mayinews.g.album.bean.FollowingBean;
 import com.mayinews.g.app.MyApplication;
 import com.mayinews.g.home.adapter.ImagesAdapter;
 import com.mayinews.g.home.bean.SingleAlbum;
@@ -72,8 +70,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
-
-import static android.R.attr.id;
 
 public class PhotosActivity extends AppCompatActivity implements View.OnClickListener {
     List<String> data;
@@ -209,25 +205,25 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
         showPopwindow();//水印
         Intent intent = getIntent();
 
-        data = intent.getStringArrayListExtra("images");
+//        data = intent.getStringArrayListExtra("images");
 
-        if (data != null) {
-            String avatar = intent.getStringExtra("avatar");
-            int size = data.size();
-            Log.e("TAG", "size" + size);
-            totalPage.setText("/" + size);
-            desc = intent.getStringExtra("desc");
-
-            gid = intent.getStringExtra("gid");
+//        if (data != null) {
+//            String avatar = intent.getStringExtra("avatar");
+//            int size = data.size();
+//            Log.e("TAG", "size" + size);
+//            totalPage.setText("/" + size);
+//            desc = intent.getStringExtra("desc");
+//
+//            gid = intent.getStringExtra("gid");
+//            aid = intent.getStringExtra("aid");
+//            cover = intent.getStringExtra("cover");
+//            title = intent.getStringExtra("title");
+//            Glide.with(this).load(buildGlideUrl("http://static.mayinews.com" + avatar)).into(userAvatar);
+//            initImageViewPager();
+//        } else {
             aid = intent.getStringExtra("aid");
-            cover = intent.getStringExtra("cover");
-            title = intent.getStringExtra("title");
-            Glide.with(this).load(buildGlideUrl("http://static.mayinews.com" + avatar)).into(userAvatar);
-            initImageViewPager();
-        } else {
-            aid = intent.getStringExtra("aid");
             desc = intent.getStringExtra("desc");
-           String avatar =  desc = intent.getStringExtra("avatar");
+            String avatar =  desc = intent.getStringExtra("avatar");
 
             gid = intent.getStringExtra("gid");
 
@@ -280,7 +276,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
             });
 
 
-        }
+//        }
 
 
         //获取用户信息
@@ -294,6 +290,17 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
 //        ();
 
         Log.e("TAG", "COVER=" + cover + "  desc=" + desc + "   title=" + title + "  aid=" + aid+"  gid="+gid);
+        userAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(aid!=null && !aid.equals("")){
+                    Intent intent1 = new Intent(PhotosActivity.this, ModelDetailActivity.class);
+                    intent1.putExtra("aid",aid);
+                    startActivity(intent1);
+                }
+
+            }
+        });
     }
 
     private void isCollection() {
@@ -315,7 +322,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
                                 int result = jsonObject.optInt("result");
                                 if (result == 1) {
                                     //收藏过
-                                    ivColl.setImageResource(R.drawable.coll_press);
+                                    ivColl.setImageResource(R.drawable.collect_press);
                                 }
                             }
                         } catch (JSONException e) {
@@ -338,7 +345,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
     //显示水印的
     private void showPopwindow() {
 
-        isShow = true;
+        isShow = false;
         window = new PopupWindow(this);
         final View inflate = View.inflate(this, R.layout.watermark_photo, null);
 
@@ -363,7 +370,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onDismiss() {
 
-                tobBottom.setVisibility(View.VISIBLE);
+                tobBottom.setVisibility(View.GONE);
 
             }
         });
@@ -488,9 +495,9 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
                                         String del = result.optString("del");
                                         if (del.equals("1")) {
                                             Toast.makeText(PhotosActivity.this, "取消收藏成功", Toast.LENGTH_SHORT).show();
-                                            ivColl.setImageResource(R.drawable.coll);
+                                            ivColl.setImageResource(R.drawable.collect);
                                         } else {
-                                            ivColl.setImageResource(R.drawable.coll_press);
+                                            ivColl.setImageResource(R.drawable.collect_press);
                                             Toast.makeText(PhotosActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
                                         }
 
@@ -517,6 +524,12 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
     //显示评论的pop
     private void showCommentPop() {
         commentPopWindow.showAtLocation(rootView, Gravity.BOTTOM, 0, 0);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showInputMethod();
+            }
+        },100);
 
     }
 
@@ -539,28 +552,28 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
 
         //请求最近关注的
 
-        OkHttpUtils.get().url(Constant.GETFOLLOW)
-                .addHeader("Authorization", "Bearer " + token)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        FollowingBean followingBean = JSON.parseObject(response, FollowingBean.class);
-                        int status = followingBean.getStatus();
-                        if (status == 200) {
-
-                            List<FollowingBean.ResultBean> result = followingBean.getResult();
-                            comRecyclerView.setAdapter(new CommenrRcyAdapter(PhotosActivity.this, result));
-
-
-                        }
-                    }
-                });
+//        OkHttpUtils.get().url(Constant.GETFOLLOW)
+//                .addHeader("Authorization", "Bearer " + token)
+//                .build()
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onError(Call call, Exception e, int id) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onResponse(String response, int id) {
+//                        FollowingBean followingBean = JSON.parseObject(response, FollowingBean.class);
+//                        int status = followingBean.getStatus();
+//                        if (status == 200) {
+//
+//                            List<FollowingBean.ResultBean> result = followingBean.getResult();
+//                            comRecyclerView.setAdapter(new CommenrRcyAdapter(PhotosActivity.this, result));
+//
+//
+//                        }
+//                    }
+//                });
 
 
         //请求评论列表
@@ -775,6 +788,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
 
         LinearLayout llWx = (LinearLayout) view.findViewById(R.id.ll_wx);//微信好友
         LinearLayout llPengyou = (LinearLayout) view.findViewById(R.id.ll_pengyou);//微信朋友圈
+        TextView cancle = (TextView) view.findViewById(R.id.cancle);//微信朋友圈
         llWx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -787,7 +801,12 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
                 sharePicture("pengyouquan");
             }
         });
-
+        cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPopupWindow.dismiss();
+            }
+        });
         SharedPopupWindow.setOutsideTouchable(true);
         SharedPopupWindow.setFocusable(true);
         //让pop可以点击外面消失掉
@@ -883,5 +902,11 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
         getWindow().setAttributes(lp);
     }
 
-
+    private void showInputMethod() {
+        //自动弹出键盘
+        InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        //强制隐藏Android输入法窗口
+        // inputManager.hideSoftInputFromWindow(edit.getWindowToken(),0);
+    }
 }

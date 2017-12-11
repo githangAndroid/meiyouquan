@@ -3,7 +3,6 @@ package com.mayinews.g.view;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 /**
  * Created by Administrator on 2017/11/13 0013.

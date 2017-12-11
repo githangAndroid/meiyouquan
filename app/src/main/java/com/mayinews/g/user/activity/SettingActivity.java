@@ -17,8 +17,6 @@ import butterknife.ButterKnife;
 import com.mayinews.g.utils.CacheUtil;
 import com.mayinews.g.utils.SPUtils;
 
-import static com.mayinews.g.utils.CacheUtil.clearAllCache;
-
 public class SettingActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.iv_back)

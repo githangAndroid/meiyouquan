@@ -1,2 +1,2 @@
-include ':app', ':LRecyclerview_library', ':photoview', ':PullScrollView', ':library'
+include ':app', ':LRecyclerview_library', ':photoview', ':PullScrollView', ':library', ':pullzoom'
 

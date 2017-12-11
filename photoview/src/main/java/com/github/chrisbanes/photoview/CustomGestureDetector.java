@@ -77,7 +77,7 @@ class CustomGestureDetector {
     private float getActiveX(MotionEvent ev) {
         try {
             return ev.getX(mActivePointerIndex);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
             return ev.getX();
         }
     }
@@ -85,7 +85,7 @@ class CustomGestureDetector {
     private float getActiveY(MotionEvent ev) {
         try {
             return ev.getY(mActivePointerIndex);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
             return ev.getY();
         }
     }
@@ -102,7 +102,7 @@ class CustomGestureDetector {
         try {
             mDetector.onTouchEvent(ev);
             return processTouchEvent(ev);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
             // Fix for support lib bug, happening when onDestroy is called
             return true;
         }

@@ -23,8 +23,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static android.os.Build.VERSION_CODES.N;
-
 /**
  * Created by Administrator on 2017/11/14 0014.
  */

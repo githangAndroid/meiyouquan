@@ -1,7 +1,6 @@
 package com.mayinews.g.home.fragment;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,7 +12,7 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.DisplayMetrics;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -28,6 +27,8 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 import com.github.jdsjlzx.ItemDecoration.SpacesItemDecoration;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
@@ -41,6 +42,7 @@ import com.mayinews.g.home.adapter.VAdapter;
 import com.mayinews.g.home.adapter.VRcAdapter;
 import com.mayinews.g.home.bean.HomeReBean;
 import com.mayinews.g.home.bean.ModelTagBean;
+import com.mayinews.g.home.bean.RankListBean;
 import com.mayinews.g.user.activity.LoginActivity;
 import com.mayinews.g.utils.Constant;
 import com.mayinews.g.utils.SPUtils;
@@ -55,6 +57,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import com.zhy.magicviewpager.transformer.ScaleInTransformer;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +71,6 @@ import com.mayinews.g.utils.NetworkUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static android.os.Build.VERSION_CODES.M;
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 import static com.mayinews.g.utils.NetworkUtils.isNetworkAvailable;
 
@@ -89,7 +91,8 @@ public class HomeFragment extends Fragment implements VRcAdapter.OnItemClickLite
     ViewPager mViewPager;
     @BindView(R.id.recyclerView)
     LRecyclerView recyclerView;
-    private List<String> imageViews = new ArrayList<>();
+//    private List<String> imageViews = new ArrayList<>();
+    private List<Integer> imageViews = new ArrayList<>();
 
     private VAdapter mAdapter;
     private VRcAdapter vRcAdapter;
@@ -102,6 +105,7 @@ public class HomeFragment extends Fragment implements VRcAdapter.OnItemClickLite
 
     private int ScreenWidth;
     private int currentVersion;//当前的版本
+    private List<RankListBean.ResultBean> RankResult;//排行榜的信息
 
     @Nullable
     @Override
@@ -146,7 +150,11 @@ public class HomeFragment extends Fragment implements VRcAdapter.OnItemClickLite
                 // 打开更多排行榜
                 String state = (String) SPUtils.get(getActivity(),MyApplication.LOGINSTATUES,"0");
                 if(state.equals("1")){
-                    startActivity(new Intent(getActivity(), MoreRankActivity.class));
+                    Bundle bundle=new Bundle();
+                    Intent intent = new Intent(getActivity(), MoreRankActivity.class);
+                    bundle.putSerializable("ranklist", (Serializable) RankResult);
+                    intent.putExtra("bundle",bundle);
+                    startActivity(intent);
                 }else{
                     startActivity(new Intent(getActivity(), LoginActivity.class));
 
@@ -196,7 +204,7 @@ public class HomeFragment extends Fragment implements VRcAdapter.OnItemClickLite
                     String apkUrl = apk.optString(current+"");  //apk的下载地址
 
                     //若是有最新版,请求下载和安装apk
-                    if(currentVersion<current){
+                    if(currentVersion<current ){
 
                         requestDownloadApk(apkUrl);
                     }
@@ -266,7 +274,7 @@ public class HomeFragment extends Fragment implements VRcAdapter.OnItemClickLite
             @Override
             public void onError(Call call, Exception e, int id) {
                 Log.e("TAG","下载失败error="+e.getMessage());
-                Toast.makeText(getActivity(), "下载失败", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "下载失败", Toast.LENGTH_SHORT).show();
                 alertDialog.dismiss();
             }
 
@@ -300,9 +308,10 @@ public class HomeFragment extends Fragment implements VRcAdapter.OnItemClickLite
     }
 
     private void requestData(View view) {
-        imageViews.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1508335215839&di=05bd2b18c8a8974915f41c16a34865ee&imgtype=0&src=http%3A%2F%2Fdesk.fd.zol-img.com.cn%2Ft_s960x600c5%2Fg4%2FM01%2F01%2F0B%2FCg-4WVPgP_mIBQYXAAb9Cbf54i0AAQOJgOduL0ABv0h477.jpg");
-        imageViews.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1508335738487&di=c9e3a000c90a38e87ce0078b9e24220c&imgtype=jpg&src=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D4082926650%2C2115755766%26fm%3D214%26gp%3D0.jpg");
-
+//        imageViews.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1508335215839&di=05bd2b18c8a8974915f41c16a34865ee&imgtype=0&src=http%3A%2F%2Fdesk.fd.zol-img.com.cn%2Ft_s960x600c5%2Fg4%2FM01%2F01%2F0B%2FCg-4WVPgP_mIBQYXAAb9Cbf54i0AAQOJgOduL0ABv0h477.jpg");
+//        imageViews.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1508335738487&di=c9e3a000c90a38e87ce0078b9e24220c&imgtype=jpg&src=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D4082926650%2C2115755766%26fm%3D214%26gp%3D0.jpg");
+           imageViews.add(R.drawable.banner1);
+           imageViews.add(R.drawable.banner2);
 
 
         //设置Banner轮播图
@@ -332,9 +341,36 @@ public class HomeFragment extends Fragment implements VRcAdapter.OnItemClickLite
 
             }
         });
-        Glide.with(this).load("http://img2.3lian.com/2014/gif/11/4/38.jpg").into((ImageView) view.findViewById(R.id.image_one));
-        Glide.with(this).load("http://img2.3lian.com/2014/gif/11/4/34.jpg").into((ImageView) view.findViewById(R.id.image_two));
-        Glide.with(this).load("http://a.hiphotos.baidu.com/zhidao/wh%3D600%2C800/sign=8b393b17a61ea8d38a777c02a73a1c76/5882b2b7d0a20cf4896e727376094b36adaf99a4.jpg").into((ImageView) view.findViewById(R.id.image_three));
+
+
+        //请求排行榜
+
+        OkHttpUtils.get().url("http://meiyou.130game.com/api/hot").build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                RankListBean rankListBean = JSON.parseObject(response, RankListBean.class);
+                int status = rankListBean.getStatus();
+                if(status==200){
+                    RankResult = rankListBean.getResult();
+                    Glide.with(getActivity()).load(buildGlideUrl("http://static.mayinews.com"+RankResult.get(0).getAvatar())).into((ImageView) view.findViewById(R.id.image_one));
+                    Glide.with(getActivity()).load(buildGlideUrl("http://static.mayinews.com"+RankResult.get(1).getAvatar())).into((ImageView) view.findViewById(R.id.image_two));
+                    Glide.with(getActivity()).load(buildGlideUrl("http://static.mayinews.com"+RankResult.get(2).getAvatar())).into((ImageView) view.findViewById(R.id.image_three));
+
+                }
+
+
+            }
+        });
+
+
+//        Glide.with(this).load("http://img2.3lian.com/2014/gif/11/4/38.jpg").into((ImageView) view.findViewById(R.id.image_one));
+//        Glide.with(this).load("http://img2.3lian.com/2014/gif/11/4/34.jpg").into((ImageView) view.findViewById(R.id.image_two));
+//        Glide.with(this).load("http://a.hiphotos.baidu.com/zhidao/wh%3D600%2C800/sign=8b393b17a61ea8d38a777c02a73a1c76/5882b2b7d0a20cf4896e727376094b36adaf99a4.jpg").into((ImageView) view.findViewById(R.id.image_three));
 
 
     }
@@ -602,7 +638,13 @@ public class HomeFragment extends Fragment implements VRcAdapter.OnItemClickLite
 
     }
 
-
+    private GlideUrl buildGlideUrl(String url) {
+        if (TextUtils.isEmpty(url)) {
+            return null;
+        } else {
+            return new GlideUrl(url, new LazyHeaders.Builder().addHeader("Referer", "http://m.mayinews.com").build());
+        }
+    }
 
 
 }

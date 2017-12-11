@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/login_back1"
+    android:background="@drawable/login_back"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context="com.mayinews.g.user.activity.PayActivity">
-    <ImageView
-        android:id="@+id/iv_back"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/cherry_return"
-        android:layout_width="40dp"
-        android:layout_height="40dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/iv_back"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/cherry_return"
+            android:layout_width="36dp"
+            android:layout_height="36dp" />
+        <TextView
+            android:layout_centerInParent="true"
+            android:textSize="18sp"
+            android:text="登录"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
     <LinearLayout
 
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -40,8 +54,7 @@
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-
-    </LinearLayout>
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/WeChat"
             android:gravity="center_horizontal"
@@ -58,7 +71,7 @@
                 android:layout_marginTop="8dp"
                 android:text="微信登录"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -69,7 +82,7 @@
 
 
     <LinearLayout
-        android:visibility="gone"
+
         android:layout_marginTop="20dp"
         android:gravity="center_vertical"
         android:layout_marginLeft="2dp"
@@ -99,7 +112,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:background="@drawable/phone_backgroud"
+        android:background="@drawable/auth_code_backgroud"
         android:gravity="center_vertical"
 
         android:orientation="horizontal"

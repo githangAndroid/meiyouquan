@@ -243,7 +243,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
                     } else {
                         setScale(getMinimumScale(), x, y, true);
                     }
-                } catch (ArrayIndexOutOfBoundsException e) {
+                } catch (ArrayIndexOutOfBoundsException ignored) {
                     // Can sometimes happen when getX() and getY() is called
                 }
 

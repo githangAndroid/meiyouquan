@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
@@ -27,15 +25,13 @@ import com.mayinews.g.user.activity.LoginActivity;
 import com.mayinews.g.utils.DisplayUtil;
 import com.mayinews.g.utils.SPUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.mob.tools.utils.ResHelper.getScreenHeight;
 
 /**
  * Created by Administrator on 2017/9/11 0011.
@@ -83,9 +79,14 @@ public class ModelDetailAdapter extends RecyclerView.Adapter<ModelDetailAdapter.
         holder.desc.setText(resultBean.getDescription());
         holder.username.setText(data.getNickname());
         long l = Long.parseLong(resultBean.getCreate_time());
-        Date date = new Date(l);
-        String upTime = date.getMonth() + 1 + "月" + (date.getDay() + 1) + "日";
+
+        SimpleDateFormat time=new SimpleDateFormat("MM月dd日");
+//        System.out.println(time.format(System.currentTimeMillis()));
+//        Date date = new Date(l);
+//        String upTime = date.getMonth() + 1 + "月" + (date.getDay() + 1) + "日";
+        String upTime = time.format(l);
         holder.updateTime.setText(upTime);
+
         List<String> picture = resultBean.getPicture();
         String view = resultBean.getView();
         holder.view.setText("已被" + view + "人看过");
@@ -249,4 +250,7 @@ public class ModelDetailAdapter extends RecyclerView.Adapter<ModelDetailAdapter.
         wm.getDefaultDisplay().getMetrics(outMetrics);
         return outMetrics.widthPixels;
     }
+
+
+
 }

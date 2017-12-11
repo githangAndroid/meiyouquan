@@ -94,6 +94,7 @@ public class NewestFragment extends Fragment {
                 intent.putExtra("title",title);
                 intent.putExtra("cover",cover);
                 startActivity(intent);
+                
             }
 
         });

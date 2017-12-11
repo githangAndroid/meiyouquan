@@ -19,9 +19,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
-import jp.co.cyberagent.android.gpuimage.GPUImageFalseColorFilter;
-
-import static android.os.Build.VERSION_CODES.M;
 
 /**
  * Created by Administrator on 2017/10/27 0027.
